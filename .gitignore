@@ -1,0 +1,9 @@
+$ cat .gitignore
+
+# ----- exclude everything
+/*
+!/.gitignore
+!/makefile
+
+!/Math
+!/FileHandling
