@@ -6,13 +6,14 @@ REM = del
 endif
 
 # ----- Compiler
-CC 			= clang++
-CFLAGS		= -g -Wall -c -std=c++14
+CC 			= clang
+CFLAGS		= -g -Wall -c
 TFLAGS		= -g -Wall -std=c++14	
 LFLAGS		= -g -lc++
 
 # ----- Directories
-TEMP		= ../../temp/
+MATH		= Math/
+TEMP		= temp/
 BIN			= ../../bin/
 TEST		= ../../test/
 COMMON		= ../
@@ -36,7 +37,7 @@ Test: SIMD.o
 	-@$(CC) $(TEMP)SIMD.o $(TEMP)SIMD.test.o -o $(TEMP)SIMD$(EXT)
 	-@$(TEMP)SIMD$(EXT)
 
-SIMD.o: SIMD.c SIMD.h
-	-@ECHO -n "Building Factorial"
+SIMD.o: $(MATH)SIMD.c $(MATH)SIMD.h
+	-@ECHO -n "Building SIMD.p"
 	-@$(CC) $(CFLAGS) SIMD.c -o $(TEMP)SIMD.o
 	-@ECHO "...ok"
