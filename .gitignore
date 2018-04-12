@@ -7,3 +7,7 @@ $ cat .gitignore
 
 !/Math
 !/FileHandling
+
+!/Utils
+!/Utils/Test
+/Utils/Temp
