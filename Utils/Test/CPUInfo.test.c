@@ -4,16 +4,17 @@
 
 int main(int argCount, char** args)
 {
-    char out[17];
+    unsigned int out[3];
     for(int i=0; i<17; i++)
         out[i] = 0;
     printf("Testing CPUInfo\n\n");
-
     GetVendorID(out);
-    printf("Got Something\n");
-    for(int i=0; i<17; i++)
-        printf("%d: %0x\n", i, out[i]);
+    
+    char* letter = (char*)out;
+    
+    for(int i=0; i<12; i++)
+        printf("%c", letter[i]);
 
-    printf("%s\n",out);
+    printf("\n");
     return 0;
 }
