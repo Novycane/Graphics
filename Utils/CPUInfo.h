@@ -12,6 +12,6 @@
 #ifndef CPUINFO_H
 #define CPUINFO_H
 
-
+unsigned int CheckHardwareAvailability();
 
 #endif

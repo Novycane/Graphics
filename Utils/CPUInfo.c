@@ -9,7 +9,9 @@
 //
 // --------------------------------------------------
 
-void CheckHardwareAvailability()
+#include "CPUInfo.h"
+
+unsigned int CheckHardwareAvailability()
 {
     unsigned int ecx;
     unsigned int leaf = 1;
@@ -23,9 +25,9 @@ void CheckHardwareAvailability()
     // Check for RDRAND Support
     if((ecx & 0x40000000) !=  0x40000000)
     {
-        return;
+        return 0;
     }
-    //std::cout << "Harware Random Number Generation Supported!\n";
+    return 1;
 }
 
 void GetHardware64(long *number)
