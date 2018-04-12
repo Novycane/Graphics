@@ -13,5 +13,6 @@
 #define CPUINFO_H
 
 unsigned int CheckHardwareAvailability();
+unsigned int GetVendorID(char* text);
 
 #endif

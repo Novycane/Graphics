@@ -30,6 +30,25 @@ unsigned int CheckHardwareAvailability()
     return 1;
 }
 
+unsigned int GetVendorID(char* text)
+{
+    unsigned int ebx, ecx, edx;
+    unsigned int leaf = 0;
+    unsigned int subleaf = 0;
+    
+    asm volatile("cpuid"
+                 : "=b" (ebx),"=c" (ecx), "=d" (edx)
+                 : "a" (leaf), "c" (subleaf));
+    
+    unsigned int* out = (unsigned int*)text;
+
+    out[0] = ebx;
+    out[1] = edx;
+    out[2] = ecx;
+
+    return ebx;
+}
+
 void GetHardware64(long *number)
 {
     unsigned char passed;
