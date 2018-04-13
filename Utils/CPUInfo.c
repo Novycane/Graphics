@@ -11,41 +11,52 @@
 
 #include "CPUInfo.h"
 
-unsigned int CheckHardwareAvailability()
-{
-    unsigned int ecx;
-    unsigned int leaf = 1;
-    unsigned int subleaf = 0;
-    
-    asm volatile("cpuid"
-                 : "=c" (ecx)
-                 : "a" (leaf), "c" (subleaf));
-    
-    
-    // Check for RDRAND Support
-    if((ecx & 0x40000000) !=  0x40000000)
-    {
-        return 0;
-    }
-    return 1;
-}
-
-unsigned int GetVendorID(unsigned int* id)
+// -------------------------------------------------------
+// ------------------------- Vendor Info Functions
+int GetVendorInfo(CPUInfoData* cacheData)
 {
     unsigned int leaf = 0;
     unsigned int subleaf = 0;
-    
+
     asm volatile("cpuid"
-                 : "=b" (id[0]),"=c" (id[2]), "=d" (id[1])
-                 : "a" (leaf), "c" (subleaf));
+                : "=a" (cacheData->EAX), "=b" (cacheData->EBX), "=c" (cacheData->ECX), "=d" (cacheData->EDX)
+                : "a" (leaf), "c" (subleaf)
+    );
+
     return 0;
 }
 
-void GetHardware64(long *number)
+unsigned int GetMaxEAXLeaf(CPUInfoData* cacheData)
 {
-    unsigned char passed;
-        
-    asm volatile ("rdrand %0\t\n"
-                  "setc %1\t\n"
-                  : "=r" (*number), "=qm" (passed));
+    return cacheData->EAX;
+}
+
+// -------------------------------------------------------
+// ------------------------- Processor Info Functions
+int GetProcessorInfo(CPUInfoData* cacheData)
+{
+    unsigned int leaf = 1;
+    unsigned int subleaf = 0;
+
+    asm volatile("cpuid"
+                : "=a" (cacheData->EAX), "=b" (cacheData->EBX), "=c" (cacheData->ECX), "=d" (cacheData->EDX)
+                : "a" (leaf), "c" (subleaf)
+    );
+
+    return 0;
+}
+
+// -------------------------------------------------------
+// ------------------------- Cache Info Functions
+int GetCacheInfo(CPUInfoData* cacheData)
+{
+    unsigned int leaf = 2;
+    unsigned int subleaf = 0;
+
+    asm volatile("cpuid"
+                : "=a" (cacheData->EAX), "=b" (cacheData->EBX), "=c" (cacheData->ECX), "=d" (cacheData->EDX)
+                : "a" (leaf), "c" (subleaf)
+    );
+
+    return 0;
 }
