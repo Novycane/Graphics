@@ -38,5 +38,6 @@ int DecodeProcessorVersionInfo(CPUInfoData* cacheData);
 
 // ------------------------- Cache Info Functions
 int GetCacheInfo(CPUInfoData* cacheData);
+int DecodeCache(CPUInfoData* cacheData);
 
 #endif

@@ -60,3 +60,8 @@ int GetCacheInfo(CPUInfoData* cacheData)
 
     return 0;
 }
+
+int DecodeCache(CPUInfoData* cacheData)
+{
+    return cacheData->EAX & 0x00000001;
+}
