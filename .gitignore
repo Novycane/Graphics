@@ -6,6 +6,9 @@ $ cat .gitignore
 !/makefile
 
 !/Math
+!/Math/Test
+/Math/Temp
+
 !/FileHandling
 
 !/Utils

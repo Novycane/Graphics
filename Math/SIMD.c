@@ -11,30 +11,31 @@
 
 #include "SIMD.h"
 
-void CheckHardwareAvailability()
+// --------------------------------------------------
+// ------------------------- Functions
+
+float4 add(float4* A, float4* B)
 {
-    unsigned int ecx;
-    unsigned int leaf = 1;
-    unsigned int subleaf = 0;
-    
-    asm volatile("cpuid"
-                 : "=c" (ecx)
-                 : "a" (leaf), "c" (subleaf));
-    
-    
-    // Check for RDRAND Support
-    if((ecx & 0x40000000) !=  0x40000000)
-    {
-        return;
-    }
-    //std::cout << "Harware Random Number Generation Supported!\n";
+    float4 out;
+    asm ("movaps (%1), %%xmm0\n\t"
+        "movaps (%2), %%xmm1\n\t"
+        "addps %%xmm0, %%xmm1\n\t"
+        "movaps %%xmm1, %0\n\t"
+        : "=m" (out) 
+        : "r" (A), "r" (B)
+    );
+    return out;
 }
 
-void GetHardware64(long *number)
+float4 subtract(float4* A, float4* B)
 {
-    unsigned char passed;
-        
-    asm volatile ("rdrand %0\t\n"
-                  "setc %1\t\n"
-                  : "=r" (*number), "=qm" (passed));
+    float4 out;
+    asm ("movaps (%1), %%xmm0\n\t"
+        "movaps (%2), %%xmm1\n\t"
+        "subps %%xmm0, %%xmm1\n\t"
+        "movaps %%xmm1, %0\n\t"
+        : "=m" (out) 
+        : "r" (A), "r" (B)
+    );
+    return out;
 }
