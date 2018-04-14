@@ -32,8 +32,34 @@ float4 subtract(float4* A, float4* B)
     float4 out;
     asm ("movaps (%1), %%xmm0\n\t"
         "movaps (%2), %%xmm1\n\t"
-        "subps %%xmm0, %%xmm1\n\t"
-        "movaps %%xmm1, %0\n\t"
+        "subps %%xmm1, %%xmm0\n\t"
+        "movaps %%xmm0, %0\n\t"
+        : "=m" (out) 
+        : "r" (A), "r" (B)
+    );
+    return out;
+}
+
+float4 multiply(float4* A, float4* B)
+{
+    float4 out;
+    asm ("movaps (%1), %%xmm0\n\t"
+        "movaps (%2), %%xmm1\n\t"
+        "mulps %%xmm1, %%xmm0\n\t"
+        "movaps %%xmm0, %0\n\t"
+        : "=m" (out) 
+        : "r" (A), "r" (B)
+    );
+    return out;
+}
+
+float4 divide(float4* A, float4* B)
+{
+    float4 out;
+    asm ("movaps (%1), %%xmm0\n\t"
+        "movaps (%2), %%xmm1\n\t"
+        "divps %%xmm1, %%xmm0\n\t"
+        "movaps %%xmm0, %0\n\t"
         : "=m" (out) 
         : "r" (A), "r" (B)
     );

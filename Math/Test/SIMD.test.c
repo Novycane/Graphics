@@ -45,27 +45,32 @@ int main(int argCount, char** args)
 int TestVectorAddition()
 {
     printf("Vector Addition Tests\n");
-    float4 A, B;
-    float sum = 0.0;
+    float4 A, B, C;
 
-    A.x = 0.0;
+    A.x = 0.5;
     A.y = 3.0;
     A.z = -4.0;
     A.w = 1.0;
 
     B.x = 1.0;
-    B.y = 1.0;
+    B.y = 2.0;
     B.z = 1.0;
-    B.w = 1.0;
+    B.w = 2.0;
 
-    B = add(&A,&B);
-    
-    sum = A.x + 1 - B.x;
-    sum += A.y + 1 - B.y;
-    sum += A.z + 1 - B.z;
-    sum += A.w + 1 - B.w;
+    C = A;
+    printf("%f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
 
-    printf("%f, %f, %f, %f\n", A.x, A.y, A.z, A.w);
+    C = add(&A,&B);
+    printf("%f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
+
+    C = subtract(&A,&B);
+    printf("%f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
+
+    C = multiply(&A,&B);
+    printf("%f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
+
+    C = divide(&B,&A);
+    printf("%f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
 
     return 1;
 }
