@@ -10,6 +10,7 @@
 // --------------------------------------------------
 
 #include <stdio.h>
+#include <pthread.h>
 #include "../SIMD.h"
 
 // --------------------------------------------------
@@ -27,6 +28,7 @@ typedef enum errorcode
 // ------------------------- Headers
 
 int TestVectorAddition();
+int TestThreading();
 
 // --------------------------------------------------
 // ------------------------- Main
@@ -34,8 +36,8 @@ int TestVectorAddition();
 int main(int argCount, char** args)
 {
     printf("\n");
-    TestVectorAddition();
-
+    //TestVectorAddition();
+    TestThreading();
     return 0;
 }
 
@@ -60,17 +62,23 @@ int TestVectorAddition()
     C = A;
     printf("%f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
 
-    C = add(&A,&B);
+    C = add_f4(&A,&B);
     printf("%f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
 
-    C = subtract(&A,&B);
+    C = subtract_f4(&A,&B);
     printf("%f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
 
-    C = multiply(&A,&B);
+    C = multiply_f4(&A,&B);
     printf("%f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
 
-    C = divide(&B,&A);
+    C = divide_f4(&B,&A);
     printf("%f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
+
+    return 1;
+}
+
+int TestThreading()
+{
 
     return 1;
 }
