@@ -10,25 +10,17 @@
 // --------------------------------------------------
 
 #include <stdio.h>
-#include <pthread.h>
 #include "../SIMD.h"
 
 // --------------------------------------------------
 // ------------------------- Error Code
 
-/*
-typedef enum errorcode
-{
-    AdditionError = 1,
-    SubtractionError
-} ErrorCode;
-*/
 
 // --------------------------------------------------
 // ------------------------- Headers
 
 int TestVectorAddition();
-int TestThreading();
+int TestDouble4Arithmatic();
 
 // --------------------------------------------------
 // ------------------------- Main
@@ -36,8 +28,10 @@ int TestThreading();
 int main(int argCount, char** args)
 {
     printf("\n");
-    //TestVectorAddition();
-    TestThreading();
+
+    TestVectorAddition();    
+    TestDouble4Arithmatic();
+
     return 0;
 }
 
@@ -46,8 +40,10 @@ int main(int argCount, char** args)
 
 int TestVectorAddition()
 {
-    printf("Vector Addition Tests\n");
+    printf("Single Precision Arithmetic Tests\n");
     float4 A, B, C;
+
+    int sum = 0;
 
     A.x = 0.5;
     A.y = 3.0;
@@ -59,26 +55,128 @@ int TestVectorAddition()
     B.z = 1.0;
     B.w = 2.0;
 
-    C = A;
-    printf("%f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
+    add_f4(&A,&B, &C);
+    if( A.x + B.x != C.x ||
+        A.y + B.y != C.y ||
+        A.z + B.z != C.z ||
+        A.w + B.w != C.w)
+    {
+        printf("Error In Single Precision Addition\n");
+        printf("A: %f, %f, %f, %f\n", A.x, A.y, A.z, A.w);
+        printf("B: %f, %f, %f, %f\n", B.x, B.y, B.z, B.w);
+        printf("C: %f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
+        sum++;
+    }
 
-    C = add_f4(&A,&B);
-    printf("%f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
+    subtract_f4(&A,&B, &C);
+    if( A.x - B.x != C.x ||
+        A.y - B.y != C.y ||
+        A.z - B.z != C.z ||
+        A.w - B.w != C.w)
+    {
+        printf("Error In Single Precision Subtraction\n");
+        printf("A: %f, %f, %f, %f\n", A.x, A.y, A.z, A.w);
+        printf("B: %f, %f, %f, %f\n", B.x, B.y, B.z, B.w);
+        printf("C: %f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
+        sum++;
+    }
 
-    C = subtract_f4(&A,&B);
-    printf("%f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
+    multiply_f4(&A,&B, &C);
+    if( A.x * B.x != C.x ||
+        A.y * B.y != C.y ||
+        A.z * B.z != C.z ||
+        A.w * B.w != C.w)
+    {
+        printf("Error In Single Precision Multiplication\n");
+        printf("A: %f, %f, %f, %f\n", A.x, A.y, A.z, A.w);
+        printf("B: %f, %f, %f, %f\n", B.x, B.y, B.z, B.w);
+        printf("C: %f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
+        sum++;
+    }
 
-    C = multiply_f4(&A,&B);
-    printf("%f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
+    divide_f4(&B,&A, &C);
+    if( A.x / B.x != C.x ||
+        A.y / B.y != C.y ||
+        A.z / B.z != C.z ||
+        A.w / B.w != C.w)
+    {
+        printf("Error In Single Precision Division\n");
+        printf("A: %f, %f, %f, %f\n", A.x, A.y, A.z, A.w);
+        printf("B: %f, %f, %f, %f\n", B.x, B.y, B.z, B.w);
+        printf("C: %f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
+        sum++;
+    }
 
-    C = divide_f4(&B,&A);
-    printf("%f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
-
-    return 1;
+    return sum;
 }
 
-int TestThreading()
+int TestDouble4Arithmatic()
 {
+    printf("Double Arithmatic Tests\n");
+    double4 A, B, C;
+    int sum = 0;
 
-    return 1;
+    A.x = 20.0;
+    A.y = 30.0;
+    A.z = 40.0;
+    A.w = 50.0;
+
+    B.x = 10.0;
+    B.y = 10.0;
+    B.z = 10.0;
+    B.w = 10.0;
+
+    add_d4(&A, &B, &C);
+    if( A.x + B.x != C.x ||
+        A.y + B.y != C.y ||
+        A.z + B.z != C.z ||
+        A.w + B.w != C.w)
+    {
+        printf("Error In Double Precision Addition\n");
+        printf("A: %f, %f, %f, %f\n", A.x, A.y, A.z, A.w);
+        printf("B: %f, %f, %f, %f\n", B.x, B.y, B.z, B.w);
+        printf("C: %f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
+        sum++;
+    }    
+
+    subtract_d4(&A, &B, &C);
+    if( A.x - B.x != C.x ||
+        A.y - B.y != C.y ||
+        A.z - B.z != C.z ||
+        A.w - B.w != C.w)
+    {
+        printf("Error In Double Precision Subtraction\n");
+        printf("A: %f, %f, %f, %f\n", A.x, A.y, A.z, A.w);
+        printf("B: %f, %f, %f, %f\n", B.x, B.y, B.z, B.w);
+        printf("C: %f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
+        sum++;
+    }    
+
+    multiply_d4(&A, &B, &C);
+    if( A.x * B.x != C.x ||
+        A.y * B.y != C.y ||
+        A.z * B.z != C.z ||
+        A.w * B.w != C.w)
+    {
+        printf("Error In Double Precision Multiplication\n");
+        printf("A: %f, %f, %f, %f\n", A.x, A.y, A.z, A.w);
+        printf("B: %f, %f, %f, %f\n", B.x, B.y, B.z, B.w);
+        printf("C: %f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
+        sum++;
+    }    
+
+    divide_d4(&A, &B, &C);
+    if( A.x / B.x != C.x ||
+        A.y / B.y != C.y ||
+        A.z / B.z != C.z ||
+        A.w / B.w != C.w)
+    {
+        printf("Error In Double Precision Divsion\n");
+        printf("A: %f, %f, %f, %f\n", A.x, A.y, A.z, A.w);
+        printf("B: %f, %f, %f, %f\n", B.x, B.y, B.z, B.w);
+        printf("C: %f, %f, %f, %f\n", C.x, C.y, C.z, C.w);
+        sum++;
+    }    
+
+    return sum;
 }

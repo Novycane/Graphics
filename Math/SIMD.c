@@ -14,106 +14,92 @@
 // --------------------------------------------------
 // ------------------------- Functions
 
-float4 add_f4(float4* A, float4* B)
+void add_f4(float4* A, float4* B, float4* C)
 {
-    float4 out;
-    asm ("movaps (%1), %%xmm0\n\t"
-        "movaps (%2), %%xmm1\n\t"
-        "addps %%xmm0, %%xmm1\n\t"
-        "movaps %%xmm1, %0\n\t"
-        : "=m" (out) 
+    asm ("vmovaps (%1), %%xmm0\n\t"
+        "vmovaps (%2), %%xmm1\n\t"
+        "vaddps %%xmm0, %%xmm1, %%xmm1\n\t"
+        "vmovaps %%xmm1, %0\n\t"
+        : "=m" (*C) 
         : "r" (A), "r" (B)
     );
-    return out;
 }
 
-float4 subtract_f4(float4* A, float4* B)
+void subtract_f4(float4* A, float4* B, float4* C)
 {
-    float4 out;
-    asm ("movaps (%1), %%xmm0\n\t"
-        "movaps (%2), %%xmm1\n\t"
-        "subps %%xmm1, %%xmm0\n\t"
-        "movaps %%xmm0, %0\n\t"
-        : "=m" (out) 
+    asm ("vmovaps (%1), %%xmm0\n\t"
+        "vmovaps (%2), %%xmm1\n\t"
+        "vsubps %%xmm1, %%xmm0, %%xmm1\n\t"
+        "vmovaps %%xmm1, %0\n\t"
+        : "=m" (*C) 
         : "r" (A), "r" (B)
     );
-    return out;
 }
 
-float4 multiply_f4(float4* A, float4* B)
+void multiply_f4(float4* A, float4* B, float4* C)
 {
-    float4 out;
-    asm ("movaps (%1), %%xmm0\n\t"
-        "movaps (%2), %%xmm1\n\t"
-        "mulps %%xmm1, %%xmm0\n\t"
-        "movaps %%xmm0, %0\n\t"
-        : "=m" (out) 
+    asm ("vmovaps (%1), %%xmm0\n\t"
+        "vmovaps (%2), %%xmm1\n\t"
+        "vmulps %%xmm1, %%xmm0, %%xmm1\n\t"
+        "vmovaps %%xmm1, %0\n\t"
+        : "=m" (*C) 
         : "r" (A), "r" (B)
     );
-    return out;
 }
 
-float4 divide_f4(float4* A, float4* B)
+void divide_f4(float4* A, float4* B, float4* C)
 {
-    float4 out;
-    asm ("movaps (%1), %%xmm0\n\t"
-        "movaps (%2), %%xmm1\n\t"
-        "divps %%xmm1, %%xmm0\n\t"
-        "movaps %%xmm0, %0\n\t"
-        : "=m" (out) 
+    asm ("vmovaps (%1), %%xmm0\n\t"
+        "vmovaps (%2), %%xmm1\n\t"
+        "vdivps %%xmm0, %%xmm1, %%xmm1\n\t"
+        "vmovaps %%xmm1, %0\n\t"
+        : "=m" (*C) 
         : "r" (A), "r" (B)
     );
-    return out;
 }
 
-double4 add_d4(double4* A, double4* B)
-{
-    double4 out;
-    asm ("movapd (%1), %%xmm0\n\t"
-        "movapd (%2), %%xmm1\n\t"
-        "addpd %%xmm0, %%xmm1\n\t"
-        "movapd %%xmm1, %0\n\t"
-        : "=m" (out) 
+
+void add_d4(double4* A, double4* B, double4* C)
+{    
+    asm (
+        "vmovapd (%2), %%ymm0\n\t"
+        "vaddpd (%1), %%ymm0, %%ymm1\n\t"
+        "vmovapd %%ymm1, %0"
+        : "=m" (*C)
         : "r" (A), "r" (B)
     );
-    return out;
 }
 
-double4 subtract_d4(double4* A, double4* B)
+
+void subtract_d4(double4* A, double4* B, double4* C)
 {
-    double4 out;
-    asm ("movapd (%1), %%xmm0\n\t"
-        "movapd (%2), %%xmm1\n\t"
-        //"addpd %%xmm0, %%xmm1\n\t"
-        "movapd %%xmm1, %0\n\t"
-        : "=m" (out) 
+    asm (
+        "vmovapd (%1), %%ymm0\n\t"
+        "vsubpd (%2), %%ymm0, %%ymm1\n\t"
+        "vmovapd %%ymm1, %0"
+        : "=m" (*C)
         : "r" (A), "r" (B)
     );
-    return out;
 }
 
-double4 multiply_d4(double4* A, double4* B)
+void multiply_d4(double4* A, double4* B, double4* C)
 {
-    double4 out;
-    asm ("movapd (%1), %%xmm0\n\t"
-        "movapd (%2), %%xmm1\n\t"
-        //"addpd %%xmm0, %%xmm1\n\t"
-        "movapd %%xmm1, %0\n\t"
-        : "=m" (out) 
+    asm (
+        "vmovapd (%1), %%ymm0\n\t"
+        "vmulpd (%2), %%ymm0, %%ymm1\n\t"
+        "vmovapd %%ymm1, %0"
+        : "=m" (*C)
         : "r" (A), "r" (B)
     );
-    return out;
 }
 
-double4 divide_d4(double4* A, double4* B)
+void divide_d4(double4* A, double4* B, double4* C)
 {
-    double4 out;
-    asm ("movapd (%1), %%xmm0\n\t"
-        "movapd (%2), %%xmm1\n\t"
-        //"addpd %%xmm0, %%xmm1\n\t"
-        "movapd %%xmm1, %0\n\t"
-        : "=m" (out) 
+    asm (
+        "vmovapd (%1), %%ymm0\n\t"
+        "vdivpd (%2), %%ymm0, %%ymm1\n\t"
+        "vmovapd %%ymm1, %0"
+        : "=m" (*C)
         : "r" (A), "r" (B)
     );
-    return out;
 }
