@@ -17,9 +17,8 @@
 void add_f4(float4* A, float4* B, float4* C)
 {
     asm ("vmovaps (%1), %%xmm0\n\t"
-        "vmovaps (%2), %%xmm1\n\t"
-        "vaddps %%xmm0, %%xmm1, %%xmm1\n\t"
-        "vmovaps %%xmm1, %0\n\t"
+        "vaddps (%2), %%xmm0, %%xmm0\n\t"
+        "vmovaps %%xmm0, %0\n\t"
         : "=m" (*C) 
         : "r" (A), "r" (B)
     );
@@ -28,9 +27,8 @@ void add_f4(float4* A, float4* B, float4* C)
 void subtract_f4(float4* A, float4* B, float4* C)
 {
     asm ("vmovaps (%1), %%xmm0\n\t"
-        "vmovaps (%2), %%xmm1\n\t"
-        "vsubps %%xmm1, %%xmm0, %%xmm1\n\t"
-        "vmovaps %%xmm1, %0\n\t"
+        "vsubps (%2), %%xmm0, %%xmm0\n\t"
+        "vmovaps %%xmm0, %0\n\t"
         : "=m" (*C) 
         : "r" (A), "r" (B)
     );
@@ -39,9 +37,8 @@ void subtract_f4(float4* A, float4* B, float4* C)
 void multiply_f4(float4* A, float4* B, float4* C)
 {
     asm ("vmovaps (%1), %%xmm0\n\t"
-        "vmovaps (%2), %%xmm1\n\t"
-        "vmulps %%xmm1, %%xmm0, %%xmm1\n\t"
-        "vmovaps %%xmm1, %0\n\t"
+        "vmulps (%2), %%xmm0, %%xmm0\n\t"
+        "vmovaps %%xmm0, %0\n\t"
         : "=m" (*C) 
         : "r" (A), "r" (B)
     );
@@ -49,10 +46,9 @@ void multiply_f4(float4* A, float4* B, float4* C)
 
 void divide_f4(float4* A, float4* B, float4* C)
 {
-    asm ("vmovaps (%1), %%xmm0\n\t"
-        "vmovaps (%2), %%xmm1\n\t"
-        "vdivps %%xmm0, %%xmm1, %%xmm1\n\t"
-        "vmovaps %%xmm1, %0\n\t"
+    asm ("vmovaps (%2), %%xmm0\n\t"
+        "vdivps (%1), %%xmm0, %%xmm0\n\t"
+        "vmovaps %%xmm0, %0\n\t"
         : "=m" (*C) 
         : "r" (A), "r" (B)
     );
