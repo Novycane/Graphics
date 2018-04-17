@@ -82,10 +82,22 @@ typedef struct
 // --------------------------------------------------
 // ------------------------- Functions
 
+// ------------------------- Single
+void add_f2(float2*, float2*, float2*);
+void subtract_f2(float2*, float2*, float2*);
+void multiply_f2(float2*, float2*, float2*);
+void divide_f2(float2*, float2*, float2*);
+
 void add_f4(float4*, float4*, float4*);
 void subtract_f4(float4*, float4*, float4*);
 void multiply_f4(float4*, float4*, float4*);
 void divide_f4(float4*, float4*, float4*);
+
+// ------------------------- Double
+void add_d2(double2*, double2*, double2*);
+void subtract_d2(double2*, double2*, double2*);
+void multiply_d2(double2*, double2*, double2*);
+void divide_d2(double2*, double2*, double2*);
 
 void add_d4(double4*, double4*, double4*);
 void subtract_d4(double4*, double4*, double4*);
