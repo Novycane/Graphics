@@ -95,6 +95,16 @@ void divide_f4(float4* A, float4* B, float4* C)
     );
 }
 
+void matrix_multiply_f4(matrix_float4x4* A ,float4* x, float4* b)
+{    
+    asm ("vmovaps (%2), %%xmm0\n\t"
+        "vdivps (%1), %%xmm0, %%xmm0\n\t"
+        "vmovaps %%xmm0, %0\n\t"
+        : "=m" (*b) 
+        : "r" (A), "r" (x)
+    );
+}
+
 // ------------------------- Double
 void add_d2(double2* A, double2* B, double2* C)
 {    

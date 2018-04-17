@@ -21,6 +21,7 @@
 
 int TestFloat2Addition();
 int TestFloat4Addition();
+int TestFloat4Matrix();
 
 int TestDouble2Arithmatic();
 int TestDouble4Arithmatic();
@@ -33,10 +34,12 @@ int main(int argCount, char** args)
     printf("\n");
 
     //TestFloat2Addition();
-    TestFloat4Addition();
+    //TestFloat4Addition();
+    TestFloat4Matrix();
+
+    //TestDouble2Arithmatic();
+    //TestDouble4Arithmatic();
     
-    TestDouble2Arithmatic();
-    TestDouble4Arithmatic();
 
     return 0;
 }
@@ -100,6 +103,58 @@ int TestFloat2Addition()
         printf("C: %f, %f\n", C.x, C.y);
         sum++;
     }
+
+    return sum;
+}
+
+int TestFloat4Matrix()
+{
+    int sum = 0;
+    matrix_float4x4 A;
+    float4 b, x;
+
+    A.c0.r0 = 1.0;
+    A.c0.r1 = 0.0;
+    A.c0.r2 = 0.0;
+    A.c0.r3 = 0.0;
+
+    A.c1.r0 = 0.0;
+    A.c1.r1 = 1.0;
+    A.c1.r2 = 0.0;
+    A.c1.r3 = 0.0;
+
+    A.c2.r0 = 0.0;
+    A.c2.r1 = 0.0;
+    A.c2.r2 = 1.0;
+    A.c2.r3 = 0.0;
+
+    A.c3.r0 = 0.0;
+    A.c3.r1 = 0.0;
+    A.c3.r2 = 0.0;
+    A.c3.r3 = 1.0;
+    
+    printf("%f  %f  %f  %f\n", A.c0.r0, A.c1.r0, A.c2.r0, A.c3.r0);
+    printf("%f  %f  %f  %f\n", A.c0.r1, A.c1.r1, A.c2.r1, A.c3.r1);
+    printf("%f  %f  %f  %f\n", A.c0.r2, A.c1.r2, A.c2.r2, A.c3.r2);
+    printf("%f  %f  %f  %f\n", A.c0.r3, A.c1.r3, A.c2.r3, A.c3.r3);
+
+    x.x = -2.0;
+    x.y = 2.0;
+    x.z = 3.0;
+    x.w = 2.0;
+
+    printf("\n%f  \n%f  \n%f  \n%f\n", x.x, x.y, x.z, x.w);
+
+    b.x = 2.0;
+    b.y = 1.0;
+    b.z = 2.0;
+    b.w = -9.0;
+    
+    printf("\n%f  \n%f  \n%f  \n%f\n", b.x, b.y, b.z, b.w);    
+
+    //matrix_multiply_f4(&A, &x, &b); 
+
+    //printf("%f  \n%f  \n%f  \n%f\n", b.x, b.y, b.z, b.w);
 
     return sum;
 }
