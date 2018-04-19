@@ -12,6 +12,8 @@
 #ifndef SIMD_H
 #define SIMD_H
 
+#define NONOPTIMIZED
+
 // --------------------------------------------------
 // ------------------------- Structs
 
