@@ -126,6 +126,38 @@ void divide_d4(double4* A, double4* B, double4* C)
     C->w = A->w / B->w;
 }
 
+// ------------------------- Polygons
+
+void dotF2(float2* A,float2* B, float* c)
+{
+    *c = A->x * B->x + A->y * B->y;
+}
+
+void dotF3(float3* A,float3* B, float* c)
+{
+    *c = A->x * B->x + A->y * B->y + A->z * B->z;
+}
+
+void dotF4(float4* A,float4* B, float* c)
+{
+    *c = A->x * B->x + A->y * B->y + A->z * B->z;
+}
+
+void dotD2(double2* A, double2* B, double* c)
+{
+    *c = A->x * B->x + A->y * B->y;
+}
+
+void dotD3(double3* A, double3* B, double* c)
+{
+    *c = A->x * B->x + A->y * B->y + A->z * B->z;
+}
+
+void dotD4(double4* A, double4* B, double* c)
+{
+    *c = A->x * B->x + A->y * B->y + A->z * B->z;
+}
+
 #else
 
 // ------------------------- Single

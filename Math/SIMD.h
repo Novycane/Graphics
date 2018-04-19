@@ -172,6 +172,12 @@ void subtract_d4(double4*, double4*, double4*);
 void multiply_d4(double4*, double4*, double4*);
 void divide_d4(double4*, double4*, double4*);
 
+void dotF2(float2*, float2*, float*);
+void dotF3(float3*, float3*, float*);
+void dotF4(float4*, float4*, float*);
 
+void dotD2(double2*, double2*, double*);
+void dotD3(double3*, double3*, double*);
+void dotD4(double4*, double4*, double*);
 
 #endif
