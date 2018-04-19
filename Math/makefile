@@ -28,10 +28,16 @@ clean:
 	$(REM) $(TEMP)SIMD.o
 
 Test: SIMD.o
-	-@ECHO "Testing Math.c"
+	-@ECHO "Testing Math Routines"
 	-@$(CC) $(CFLAGS) $(TEST)SIMD.test.c -o $(TEMP)SIMD.test.o
 	-@$(CC) $(TEMP)SIMD.o $(TEMP)SIMD.test.o -o $(TEMP)SIMD$(EXT)
 	-@$(TEMP)SIMD$(EXT)
+
+Bench: SIMD.o
+	-@ECHO "Benchmarking Math Routines..."
+	-@$(CC) $(CFLAGS) $(TEST)SIMD.performance.c -o $(TEMP)SIMD.performance.o
+	-@$(CC) $(TEMP)SIMD.o $(TEMP)SIMD.performance.o -o $(TEMP)Bench$(EXT)
+	-@$(TEMP)Bench$(EXT)
 
 SIMD.o: SIMD.c SIMD.h
 	-@ECHO -n "Building Math.o"
