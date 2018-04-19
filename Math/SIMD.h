@@ -88,6 +88,54 @@ typedef struct
     int w;
 } int4;
 
+// -------------------------
+// -------------------------
+
+typedef struct 
+{
+    float2 p0;
+    float2 p1;
+    float2 p2;
+} TriangleF2;
+
+typedef struct 
+{
+    float3 p0;
+    float3 p1;
+    float3 p2;
+} TriangleF3 ;
+
+typedef struct 
+{
+    float4 p0;
+    float4 p1;
+    float4 p2;
+} TriangleF4 ;
+
+typedef struct 
+{
+    float2 p0;
+    float2 p1;
+    float2 p2;
+    float2 p3;
+} QuadF2;
+
+typedef struct 
+{
+    float3 p0;
+    float3 p1;
+    float3 p2;
+    float3 p3;
+} QuadF3 ;
+
+typedef struct 
+{
+    float4 p0;
+    float4 p1;
+    float4 p2;
+    float4 p3;
+} QuadF4 ;
+
 typedef struct
 {
     column_float4 c0;

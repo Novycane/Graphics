@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include "../SIMD.h"
 
+#define _ITERATIONS 10000000
+
 // --------------------------------------------------
 // ------------------------- Error Code
 
@@ -37,12 +39,12 @@ int main(int argCount, char** args)
     //TestTime();
     
     BenchFloat2Addition();
-    //BenchFloat4Addition();
+    BenchFloat4Addition();
 
-    //BenchDouble2Arithmatic();
-    //BenchDouble4Arithmatic();
+    BenchDouble2Arithmatic();
+    BenchDouble4Arithmatic();
     
-    //BenchFloat4Matrix();
+    BenchFloat4Matrix();
     
     return 0;
 }
@@ -85,7 +87,7 @@ int BenchFloat2Addition()
     B.x = 1.0;
     B.y = 2.0;
 
-
+    
     unsigned long long before, after, sum;
     unsigned long* bUpper;
     unsigned long* bLower;
@@ -94,7 +96,7 @@ int BenchFloat2Addition()
     bUpper =(unsigned long*) bLower + 1;
 
     sum = 0;
-    for(int i=0; i< 10000;  i++)
+    for(int i=0; i< _ITERATIONS;  i++)
     {
         asm("RDTSC"
             :"=d" (*bUpper), "=a"(*bLower) );
@@ -103,25 +105,53 @@ int BenchFloat2Addition()
         asm("RDTSC"
             :"=d" (*bUpper), "=a"(*bLower) );
         sum += (before - after);
-        //printf("Addition took: %llu cycles\n", before - after);
     }
-    printf("Average: %f cycles\n", (double)sum / 10000);
+    printf("    Average Addition: %f cycles\n", (double)sum / _ITERATIONS);
     
-    subtract_f2(&A,&B, &C);
+    for(int i=0; i< _ITERATIONS;  i++)
+    {
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        after = before;
+        subtract_f2(&A,&B, &C);
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        sum += (before - after);
+    }
+    printf("    Average Subtraction: %f cycles\n", (double)sum / _ITERATIONS);
     
-    multiply_f2(&A,&B, &C);
+    for(int i=0; i< _ITERATIONS;  i++)
+    {
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        after = before;
+        multiply_f2(&A,&B, &C);
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        sum += (before - after);
+    }
+    printf("    Average Multiplication: %f cycles\n", (double)sum / _ITERATIONS);
     
-    divide_f2(&A,&B, &C);
+    for(int i=0; i< _ITERATIONS;  i++)
+    {
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        after = before;
+        divide_f2(&A,&B, &C);
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        sum += (before - after);
+    }
+    printf("    Average Division: %f cycles\n", (double)sum / _ITERATIONS);
 
     return sum;
 }
 
 int BenchFloat4Matrix()
 {
-    int sum = 0;
     matrix_float4x4 A;
     float4 b, x;
-    printf("Single2 Precision Arithmetic Tests\n");
+    printf("Single4x4 Matrix Multiplication Tests\n");
     
     A.c0.r0 = 1.0;
     A.c0.r1 = 0.0;
@@ -153,7 +183,25 @@ int BenchFloat4Matrix()
     b.z = 2.0;
     b.w = -9.0;
     
-    matrix_multiply_f4(&A, &x, &b); 
+    unsigned long long before, after, sum;
+    unsigned long* bUpper;
+    unsigned long* bLower;
+    
+    bLower = (unsigned long*) &before;
+    bUpper =(unsigned long*) bLower + 1;
+
+    sum = 0;
+    for(int i=0; i< _ITERATIONS;  i++)
+    {
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        after = before;
+        matrix_multiply_f4(&A, &x, &b); 
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        sum += (before - after);
+    }
+    printf("    Average 4x4 Multiplication: %f cycles\n", (double)sum / _ITERATIONS);
 
     return sum;
 }
@@ -162,8 +210,6 @@ int BenchFloat4Addition()
 {
     printf("Single4 Precision Arithmetic Tests\n");
     float4 A, B, C;
-
-    int sum = 0;
 
     A.x = 0.5;
     A.y = 3.0;
@@ -175,22 +221,71 @@ int BenchFloat4Addition()
     B.z = 1.0;
     B.w = 2.0;
 
-    add_f4(&A,&B, &C);
+    unsigned long long before, after, sum;
+    unsigned long* bUpper;
+    unsigned long* bLower;
+    
+    bLower = (unsigned long*) &before;
+    bUpper =(unsigned long*) bLower + 1;
 
-    subtract_f4(&A,&B, &C);
-
-    multiply_f4(&A,&B, &C);
-
-    divide_f4(&A, &B, &C);
-
+    sum = 0;
+    for(int i=0; i< _ITERATIONS;  i++)
+    {
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        after = before;
+        add_f4(&A,&B, &C);
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        sum += (before - after);
+    }
+    printf("    Average Single4 Addition: %f cycles\n", (double)sum / _ITERATIONS);
+    
+    sum = 0;
+    for(int i=0; i< _ITERATIONS;  i++)
+    {
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        after = before;
+        subtract_f4(&A,&B, &C);
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        sum += (before - after);
+    }
+    printf("    Average Single4 Addition: %f cycles\n", (double)sum / _ITERATIONS);
+    
+    sum = 0;
+    for(int i=0; i< _ITERATIONS;  i++)
+    {
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        after = before;
+        multiply_f4(&A,&B, &C);
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        sum += (before - after);
+    }
+    printf("    Average Single4 Addition: %f cycles\n", (double)sum / _ITERATIONS);
+    
+    sum = 0;
+    for(int i=0; i< _ITERATIONS;  i++)
+    {
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        after = before;
+        divide_f4(&A, &B, &C);
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        sum += (before - after);
+    }
+    printf("    Average Single4 Addition: %f cycles\n", (double)sum / _ITERATIONS);
     return sum;
 }
 
 int BenchDouble4Arithmatic()
 {
     printf("Double4 Arithmatic Tests\n");
-    double4 A, B, C;
-    int sum = 0;
+    double4 A, B, C;    
 
     A.x = 20.0;
     A.y = 30.0;
@@ -202,13 +297,74 @@ int BenchDouble4Arithmatic()
     B.z = 10.0;
     B.w = 10.0;
 
-    add_d4(&A, &B, &C);
+    unsigned long long before, after, sum;
+    unsigned long* bUpper;
+    unsigned long* bLower;
     
-    subtract_d4(&A, &B, &C);
-    
-    multiply_d4(&A, &B, &C);
+    bLower = (unsigned long*) &before;
+    bUpper =(unsigned long*) bLower + 1;
 
-    divide_d4(&A, &B, &C);
+    sum = 0;
+    for(int i=0; i< _ITERATIONS;  i++)
+    {
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        after = before;
+        add_d4(&A, &B, &C);
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        sum += (before - after);
+    }
+    printf("    Average Single4 Addition: %f cycles\n", (double)sum / _ITERATIONS);  
+    
+    bLower = (unsigned long*) &before;
+    bUpper =(unsigned long*) bLower + 1;
+
+    sum = 0;
+    for(int i=0; i< _ITERATIONS;  i++)
+    {
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        after = before;
+        subtract_d4(&A, &B, &C);
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        sum += (before - after);
+    }
+    printf("    Average Single4 Addition: %f cycles\n", (double)sum / _ITERATIONS);
+
+    bLower = (unsigned long*) &before;
+    bUpper =(unsigned long*) bLower + 1;
+
+    sum = 0;
+    for(int i=0; i< _ITERATIONS;  i++)
+    {
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        after = before;
+        multiply_d4(&A, &B, &C);
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        sum += (before - after);
+    }
+    printf("    Average Single4 Addition: %f cycles\n", (double)sum / _ITERATIONS);
+
+    bLower = (unsigned long*) &before;
+    bUpper =(unsigned long*) bLower + 1;
+
+    sum = 0;
+    for(int i=0; i< _ITERATIONS;  i++)
+    {
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        after = before;
+        divide_d4(&A, &B, &C);
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        sum += (before - after);
+    }
+    printf("    Average Single4 Addition: %f cycles\n", (double)sum / _ITERATIONS);
+    
     return sum;
 }
 
@@ -216,7 +372,6 @@ int BenchDouble2Arithmatic()
 {
     printf("Double2 Arithmatic Tests\n");
     double2 A, B, C;
-    int sum = 0;
 
     A.x = 20.0;
     A.y = 30.0;
@@ -224,13 +379,64 @@ int BenchDouble2Arithmatic()
     B.x = 10.0;
     B.y = 10.0;
     
-    add_d2(&A, &B, &C);
+    unsigned long long before, after, sum;
+    unsigned long* bUpper;
+    unsigned long* bLower;
+    
+    bLower = (unsigned long*) &before;
+    bUpper =(unsigned long*) bLower + 1;
+
+    sum = 0;
+    for(int i=0; i< _ITERATIONS;  i++)
+    {
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        after = before;
+        add_d2(&A, &B, &C);
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        sum += (before - after);
+    }
+    printf("    Average Single4 Addition: %f cycles\n", (double)sum / _ITERATIONS);  
  
-    subtract_d2(&A, &B, &C);
+    sum = 0;
+    for(int i=0; i< _ITERATIONS;  i++)
+    {
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        after = before;
+        subtract_d2(&A, &B, &C);
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        sum += (before - after);
+    }
+    printf("    Average Single4 Addition: %f cycles\n", (double)sum / _ITERATIONS);  
  
-    multiply_d2(&A, &B, &C);
- 
-    divide_d2(&A, &B, &C);
+    sum = 0;
+    for(int i=0; i< _ITERATIONS;  i++)
+    {
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        after = before;
+        multiply_d2(&A, &B, &C);
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        sum += (before - after);
+    }
+    printf("    Average Single4 Addition: %f cycles\n", (double)sum / _ITERATIONS);  
+    
+    sum = 0;
+    for(int i=0; i< _ITERATIONS;  i++)
+    {
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        after = before;
+        divide_d2(&A, &B, &C);
+        asm("RDTSC"
+            :"=d" (*bUpper), "=a"(*bLower) );
+        sum += (before - after);
+    }
+    printf("    Average Single4 Addition: %f cycles\n", (double)sum / _ITERATIONS);  
  
     return sum;
 }
