@@ -513,7 +513,6 @@ int TestSingle3DotProduct()
     B.y = 0.0;
     B.z = -1.0;
     
-    printf("Testing dotF3\n");
     dotF3( &A, &B, &c);
     if(c != 2.0 )
         printf("dotF3 expected: 0 Got: %f\n", c);
@@ -537,7 +536,7 @@ int TestSingle4DotProduct()
     B.z = 0.0;
     B.w = 1.0;
     
-    printf("Testing dotF2\n");
+    printf("Testing dotF4\n");
     dotF4( &A, &B, &c);
     if(c != 1.0 )
         printf("dotF4 expected: 1 Got: %f\n", c);
@@ -551,7 +550,7 @@ int TestSingle4DotProduct()
     B.y = 1.0;
     B.z = 0.0;
     B.w = 1.0;
-    printf("Testing dotF2\n");
+
     dotF4( &A, &B, &c);
     if(c != 0.0 )
         printf("dotF4 expected: 0 Got: %f\n", c);
@@ -565,7 +564,7 @@ int TestSingle4DotProduct()
     B.y = 1.0;
     B.z = 0.0;
     B.w = 1.0;
-    printf("Testing dotF2\n");
+
     dotF4( &A, &B, &c);
     if(c != 0.0 )
         printf("dotF4 expected: 0 Got: %f\n", c);
@@ -594,7 +593,7 @@ int TestDouble2DotProduct()
     
     B.x = 0;
     B.y = 1;
-    printf("Testing dotD2\n");
+
     dotD2(&A, &B, &c);
     if(c != 0.0 )
         printf("dotD2 expected: 0 Got: %f\n", c);
@@ -604,7 +603,7 @@ int TestDouble2DotProduct()
 
     B.x = 1.0;
     B.y = 1;
-    printf("Testing dotD2\n");
+
     dotD2(&A, &B, &c);
     if(c != -1.0 )
         printf("dotD2 expected: -1 Got: %f\n", c);
@@ -637,7 +636,7 @@ int TestDouble3DotProduct()
     B.x = 0;
     B.y = 1;
     B.z = 0;
-    printf("Testing dotD3\n");
+
     dotD3(&A, &B, &c);
     if(c != 0.0 )
         printf("dotD3 expected: 1 Got: %f", c);
@@ -649,7 +648,7 @@ int TestDouble3DotProduct()
     B.x = 1;
     B.y = 0;
     B.z = 1;
-    printf("Testing dotD3\n");
+
     dotD3(&A, &B, &c);
     if(c != 1.0 )
         printf("dotD3 expected: 1 Got: %f", c);
@@ -661,7 +660,7 @@ int TestDouble3DotProduct()
     B.x = 1;
     B.y = 0;
     B.z = 1;
-    printf("Testing dotD3\n");
+
     dotD3(&A, &B, &c);
     if(c != 0.0 )
         printf("dotD3 expected: 0 Got: %f", c);
@@ -700,7 +699,6 @@ int TestDouble4DotProduct()
     B.z = 0;
     B.w = 1.0;
 
-    printf("Testing dotD4\n");
     dotD4(&A, &B, &c);
     if(c != 0.0 )
         printf("DotD4 expected: 0 Got: %f", c);
@@ -715,7 +713,6 @@ int TestDouble4DotProduct()
     B.z = 1;
     B.w = 1.0;
 
-    printf("Testing dotD4\n");
     dotD4(&A, &B, &c);
     if(c != 0.0 )
         printf("DotD4 expected: 0 Got: %f", c);
@@ -742,7 +739,7 @@ int TestSingle3CrossProduct()
     Z.y = -1.0;
     Z.z = -1.0;
 
-    printf("Testing crossf3\n");
+    printf("Testing crossF3\n");
     crossF3(&X, &Y, &Z);
     if(Z.x != 0 || 
        Z.y != 0 ||
@@ -764,7 +761,7 @@ int TestSingle3CrossProduct()
        Z.y != 0 ||
        Z.z != 0)
     {
-        printf("crossF3 error. Expected: {0,0,1} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
+        printf("crossF3 error. Expected: {1,0,0} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
     }
 
     X.x = 0.0;
@@ -780,7 +777,7 @@ int TestSingle3CrossProduct()
        Z.y != 1 ||
        Z.z != 0)
     {
-        printf("crossF3 error. Expected: {0,0,1} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
+        printf("crossF3 error. Expected: {0,1,0} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
     }
 
     return sum;
@@ -806,7 +803,7 @@ int TestSingle4CrossProduct()
     Z.z = -1.0;
     Z.w = 1.0;
 
-    printf("Testing crossf4\n");
+    printf("Testing crossF4\n");
     crossF4(&X, &Y, &Z);
     if(Z.x != 0 || 
        Z.y != 0 ||
@@ -830,7 +827,7 @@ int TestSingle4CrossProduct()
        Z.z != 0 ||
        Z.w != 1)
     {
-        printf("crossF4 error. Expected: {0,0,1} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
+        printf("crossF4 error. Expected: {1,0,0} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
     }
 
     X.x = 0.0;
@@ -847,7 +844,7 @@ int TestSingle4CrossProduct()
        Z.z != 0 ||
        Z.w != 1)
     {
-        printf("crossF4 error. Expected: {0,0,1} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
+        printf("crossF4 error. Expected: {0,1,0} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
     }
 
     return sum;
@@ -892,7 +889,7 @@ int TestDouble3CrossProduct()
        Z.y != 0 ||
        Z.z != 0)
     {
-        printf("crossD3 error. Expected: {0,0,1} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
+        printf("crossD3 error. Expected: {1,0,0} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
     }
 
     X.x = 0.0;
@@ -908,7 +905,7 @@ int TestDouble3CrossProduct()
        Z.y != 1 ||
        Z.z != 0)
     {
-        printf("crossD3 error. Expected: {0,0,1} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
+        printf("crossD3 error. Expected: {0,1,0} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
     }
 
     return sum;
@@ -958,7 +955,7 @@ int TestDouble4CrossProduct()
        Z.z != 0 ||
        Z.w != 1)
     {
-        printf("crossD4 error. Expected: {0,0,1} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
+        printf("crossD4 error. Expected: {1,0,0} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
     }
 
     X.x = 0.0;
@@ -975,7 +972,7 @@ int TestDouble4CrossProduct()
        Z.z != 0 ||
        Z.w != 1)
     {
-        printf("crossD4 error. Expected: {0,0,1} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
+        printf("crossD4 error. Expected: {0,1,0} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
     }
 
     return sum;
