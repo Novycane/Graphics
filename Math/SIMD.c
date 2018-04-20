@@ -166,6 +166,35 @@ void dotD4(double4* A, double4* B, double* c)
     *c = A->x * B->x + A->y * B->y + A->z * B->z;
 }
 
+void crossF3(float3* A, float3* B, float3* C)
+{
+    C->x = (A->y * B->z) - (A->z * B->y);
+    C->y = (A->z * B->x) - (A->x * B->z);
+    C->z = (A->x * B->y) - (A->y * B->x);
+}
+
+void crossF4(float4* A, float4* B, float4* C)
+{
+    C->x = (A->y * B->z) - (A->z * B->y);
+    C->y = (A->z * B->x) - (A->x * B->z);
+    C->z = (A->x * B->y) - (A->y * B->x);
+}
+
+void crossD3(double3* A, double3* B, double3* C)
+{
+    C->x = (A->y * B->z) - (A->z * B->y);
+    C->y = (A->z * B->x) - (A->x * B->z);
+    C->z = (A->x * B->y) - (A->y * B->x);
+}
+
+void crossD4(double4* A, double4* B, double4* C)
+{
+    C->x = (A->y * B->z) - (A->z * B->y);
+    C->y = (A->z * B->x) - (A->x * B->z);
+    C->z = (A->x * B->y) - (A->y * B->x);
+}
+
+
 #else
 
 // ------------------------- Single

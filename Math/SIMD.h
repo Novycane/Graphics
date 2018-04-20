@@ -180,6 +180,9 @@ void dotF2(float2*, float2*, float*);
 void dotF3(float3*, float3*, float*);
 void dotF4(float4*, float4*, float*);
 
+void crossF3(float3*, float3*, float3*);
+void crossF4(float4*, float4*, float4*);
+
 // ------------------------- Double
 void add_d2(double2*, double2*, double2*);
 void subtract_d2(double2*, double2*, double2*);
@@ -196,5 +199,8 @@ void matrix_multiply_d4(matrix_double4x4* , double4*, double4*);
 void dotD2(double2*, double2*, double*);
 void dotD3(double3*, double3*, double*);
 void dotD4(double4*, double4*, double*);
+
+void crossD3(double3*, double3*, double3*);
+void crossD4(double4*, double4*, double4*);
 
 #endif
