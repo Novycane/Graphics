@@ -40,6 +40,13 @@ int TestSingle4CrossProduct();
 
 int TestDouble3CrossProduct();
 int TestDouble4CrossProduct();
+
+int TestTriangleF3Normal();
+int TestTriangleF4Normal();
+
+int TestTriangleD3Normal();
+int TestTriangleD4Normal();
+
 // --------------------------------------------------
 // ------------------------- Main
 
@@ -69,6 +76,12 @@ int main(int argCount, char** args)
     TestDouble3CrossProduct();
     TestDouble4CrossProduct();
     
+    TestTriangleF3Normal();
+    TestTriangleF4Normal();
+
+    TestTriangleD3Normal();
+    TestTriangleD4Normal();
+
     return 0;
 }
 
@@ -746,6 +759,7 @@ int TestSingle3CrossProduct()
        Z.z != 1)
     {
         printf("crossF3 error. Expected: {0,0,1} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
+        sum++;
     }
 
     X.x = 0.0;
@@ -762,6 +776,7 @@ int TestSingle3CrossProduct()
        Z.z != 0)
     {
         printf("crossF3 error. Expected: {1,0,0} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
+        sum++;
     }
 
     X.x = 0.0;
@@ -778,6 +793,7 @@ int TestSingle3CrossProduct()
        Z.z != 0)
     {
         printf("crossF3 error. Expected: {0,1,0} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
+        sum++;
     }
 
     return sum;
@@ -811,6 +827,7 @@ int TestSingle4CrossProduct()
        Z.w != 1)
     {
         printf("crossF4 error. Expected: {0,0,1} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
+        sum++;
     }
 
     X.x = 0.0;
@@ -828,6 +845,7 @@ int TestSingle4CrossProduct()
        Z.w != 1)
     {
         printf("crossF4 error. Expected: {1,0,0} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
+        sum++;
     }
 
     X.x = 0.0;
@@ -845,6 +863,7 @@ int TestSingle4CrossProduct()
        Z.w != 1)
     {
         printf("crossF4 error. Expected: {0,1,0} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
+        sum++;
     }
 
     return sum;
@@ -874,6 +893,7 @@ int TestDouble3CrossProduct()
        Z.z != 1)
     {
         printf("crossD3 error. Expected: {0,0,1} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
+        sum++;
     }
 
     X.x = 0.0;
@@ -890,6 +910,7 @@ int TestDouble3CrossProduct()
        Z.z != 0)
     {
         printf("crossD3 error. Expected: {1,0,0} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
+        sum++;
     }
 
     X.x = 0.0;
@@ -906,6 +927,7 @@ int TestDouble3CrossProduct()
        Z.z != 0)
     {
         printf("crossD3 error. Expected: {0,1,0} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
+        sum++;
     }
 
     return sum;
@@ -939,6 +961,7 @@ int TestDouble4CrossProduct()
        Z.w != 1)
     {
         printf("crossD4 error. Expected: {0,0,1} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
+        sum++;
     }
 
     X.x = 0.0;
@@ -956,6 +979,7 @@ int TestDouble4CrossProduct()
        Z.w != 1)
     {
         printf("crossD4 error. Expected: {1,0,0} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
+        sum++;
     }
 
     X.x = 0.0;
@@ -973,7 +997,221 @@ int TestDouble4CrossProduct()
        Z.w != 1)
     {
         printf("crossD4 error. Expected: {0,1,0} Actual: {%f, %f, %f}\n", Z.x, Z.y, Z.z);
+        sum++;
     }
 
+    return sum;
+}
+
+// -------------------------------------------------- Normals
+
+int TestTriangleF3Normal()
+{
+    TriangleF3 T;
+    float3 N;
+    int sum = 0;
+
+    printf("Testing Trianlge Norm F3\n");
+
+    T.p0 = (float3){ 0.0, 0.0, 0.0 };
+    T.p1 = (float3){ 0.0, 1.0, 0.0 };
+    T.p2 = (float3){ 1.0, 0.0, 0.0 };
+
+    N.x = -1.0;
+    N.y = -1.0;
+    N.z = -1.0;
+
+    normalF3(&T, &N);
+    if(N.x != 0.0 || 
+       N.y != 0.0 ||
+       N.z != 1.0 )
+    {
+        printf("TriangleF3 Norm error. Expected: {0,0,1} Actual: {%f, %f, %f}\n", N.x, N.y, N.z);
+        sum++;
+    }
+
+    T.p0 = (float3){ 0.0, 0.0, 0.0 };
+    T.p1 = (float3){ 1.0, 0.0, 0.0 };
+    T.p2 = (float3){ 0.0, 0.0, 1.0 };
+    normalF3(&T, &N);
+    if(N.x != 0.0 || 
+       N.y != 1.0 ||
+       N.z != 0.0 )
+    {
+        printf("TriangleF3 Norm error. Expected: {0,1,0} Actual: {%f, %f, %f}\n", N.x, N.y, N.z);
+        sum++;
+    }
+
+    T.p0 = (float3){ 0.0, 0.0, 0.0 };
+    T.p1 = (float3){ 0.0, 0.0, 1.0 };
+    T.p2 = (float3){ 0.0, 1.0, 0.0 };
+    normalF3(&T, &N);
+    if(N.x != 1.0 || 
+       N.y != 0.0 ||
+       N.z != 0.0 )
+    {
+        printf("TriangleF3 Norm error. Expected: {1,0,0} Actual: {%f, %f, %f}\n", N.x, N.y, N.z);
+        sum++;
+    }
+
+    return sum;
+}
+
+int TestTriangleF4Normal()
+{
+    TriangleF4 T;
+    float4 N;
+    int sum = 0;
+
+    printf("Testing Trianlge Norm F4\n");
+
+    T.p0 = (float4){ 0.0, 0.0, 0.0, 1.0 };
+    T.p1 = (float4){ 0.0, 1.0, 0.0, 1.0 };
+    T.p2 = (float4){ 1.0, 0.0, 0.0, 1.0 };
+
+    N.x = -1.0;
+    N.y = -1.0;
+    N.z = -1.0;
+    N.w = 1.0;
+
+    normalF4(&T, &N);
+    if(N.x != 0.0 || 
+       N.y != 0.0 ||
+       N.z != 1.0 ||
+       N.w != 1.0)
+    {
+        printf("TriangleF4 Norm error. Expected: {0,0,1,1} Actual: {%f, %f, %f, %f}\n", N.x, N.y, N.z, N.w);
+        sum++;
+    }
+
+    T.p0 = (float4){ 0.0, 0.0, 0.0, 1.0 };
+    T.p1 = (float4){ 1.0, 0.0, 0.0, 1.0 };
+    T.p2 = (float4){ 0.0, 0.0, 1.0, 1.0 };
+    normalF4(&T, &N);
+    if(N.x != 0.0 || 
+       N.y != 1.0 ||
+       N.z != 0.0 )
+    {
+        printf("TriangleF4 Norm error. Expected: {0,1,0} Actual: {%f, %f, %f}\n", N.x, N.y, N.z);
+        sum++;
+    }
+
+    T.p0 = (float4){ 0.0, 0.0, 0.0, 1.0 };
+    T.p1 = (float4){ 0.0, 0.0, 1.0, 1.0 };
+    T.p2 = (float4){ 0.0, 1.0, 0.0, 1.0 };
+    normalF4(&T, &N);
+    if(N.x != 1.0 || 
+       N.y != 0.0 ||
+       N.z != 0.0 )
+    {
+        printf("TriangleF4 Norm error. Expected: {1,0,0} Actual: {%f, %f, %f}\n", N.x, N.y, N.z);
+        sum++;
+    }
+
+    return sum;
+}
+
+int TestTriangleD3Normal()
+{
+    TriangleD3 T;
+    double3 N;
+    int sum = 0;
+
+    printf("Testing Trianlge Norm D3\n");
+
+    T.p0 = (double3){ 0.0, 0.0, 0.0 };
+    T.p1 = (double3){ 0.0, 1.0, 0.0 };
+    T.p2 = (double3){ 1.0, 0.0, 0.0 };
+
+    N.x = -1.0;
+    N.y = -1.0;
+    N.z = -1.0;
+
+    normalD3(&T, &N);
+    if(N.x != 0.0 || 
+       N.y != 0.0 ||
+       N.z != 1.0 )
+    {
+        printf("TriangleD3 Norm error. Expected: {0,0,1} Actual: {%f, %f, %f}\n", N.x, N.y, N.z);
+        sum++;
+    }
+
+    T.p0 = (double3){ 0.0, 0.0, 0.0 };
+    T.p1 = (double3){ 1.0, 0.0, 0.0 };
+    T.p2 = (double3){ 0.0, 0.0, 1.0 };
+    normalD3(&T, &N);
+    if(N.x != 0.0 || 
+       N.y != 1.0 ||
+       N.z != 0.0 )
+    {
+        printf("TriangleD3 Norm error. Expected: {0,1,0} Actual: {%f, %f, %f}\n", N.x, N.y, N.z);
+        sum++;
+    }
+
+    T.p0 = (double3){ 0.0, 0.0, 0.0 };
+    T.p1 = (double3){ 0.0, 0.0, 1.0 };
+    T.p2 = (double3){ 0.0, 1.0, 0.0 };
+    normalD3(&T, &N);
+    if(N.x != 1.0 || 
+       N.y != 0.0 ||
+       N.z != 0.0 )
+    {
+        printf("TriangleD3 Norm error. Expected: {1,0,0} Actual: {%f, %f, %f}\n", N.x, N.y, N.z);
+        sum++;
+    }
+
+    return sum;
+}
+
+int TestTriangleD4Normal()
+{
+    TriangleD4 T;
+    double4 N;
+    int sum = 0;
+
+    printf("Testing Trianlge Norm D4\n");
+
+    T.p0 = (double4){ 0.0, 0.0, 0.0, 1.0 };
+    T.p1 = (double4){ 0.0, 1.0, 0.0, 1.0 };
+    T.p2 = (double4){ 1.0, 0.0, 0.0, 1.0 };
+
+    N.x = -1.0;
+    N.y = -1.0;
+    N.z = -1.0;
+    N.w = 1.0;
+
+    normalD4(&T, &N);
+    if(N.x != 0.0 || 
+       N.y != 0.0 ||
+       N.z != 1.0 ||
+       N.w != 1.0)
+    {
+        printf("TriangleD4 Norm error. Expected: {0,0,1,1} Actual: {%f, %f, %f, %f}\n", N.x, N.y, N.z, N.w);
+        sum++;
+    }
+
+    T.p0 = (double4){ 0.0, 0.0, 0.0, 1.0 };
+    T.p1 = (double4){ 1.0, 0.0, 0.0, 1.0 };
+    T.p2 = (double4){ 0.0, 0.0, 1.0, 1.0 };
+    normalD4(&T, &N);
+    if(N.x != 0.0 || 
+       N.y != 1.0 ||
+       N.z != 0.0 )
+    {
+        printf("TriangleD4 Norm error. Expected: {0,1,0} Actual: {%f, %f, %f}\n", N.x, N.y, N.z);
+        sum++;
+    }
+
+    T.p0 = (double4){ 0.0, 0.0, 0.0, 1.0 };
+    T.p1 = (double4){ 0.0, 0.0, 1.0, 1.0 };
+    T.p2 = (double4){ 0.0, 1.0, 0.0, 1.0 };
+    normalD4(&T, &N);
+    if(N.x != 1.0 || 
+       N.y != 0.0 ||
+       N.z != 0.0 )
+    {
+        printf("TriangleD4 Norm error. Expected: {1,0,0} Actual: {%f, %f, %f}\n", N.x, N.y, N.z);
+        sum++;
+    }
     return sum;
 }
