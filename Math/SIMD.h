@@ -69,6 +69,14 @@ typedef struct
 
 typedef struct
 {
+    double r0;
+    double r1;
+    double r2;
+    double r3;
+} column_double4;
+
+typedef struct
+{
     int x;
     int y;
 } int2;
@@ -144,6 +152,13 @@ typedef struct
     column_float4 c3;
 } matrix_float4x4;
 
+typedef struct
+{
+    column_double4 c0;
+    column_double4 c1;
+    column_double4 c2;
+    column_double4 c3;
+} matrix_double4x4;
 
 // --------------------------------------------------
 // ------------------------- Functions
@@ -161,6 +176,10 @@ void divide_f4(float4*, float4*, float4*);
 
 void matrix_multiply_f4(matrix_float4x4* , float4*, float4*);
 
+void dotF2(float2*, float2*, float*);
+void dotF3(float3*, float3*, float*);
+void dotF4(float4*, float4*, float*);
+
 // ------------------------- Double
 void add_d2(double2*, double2*, double2*);
 void subtract_d2(double2*, double2*, double2*);
@@ -172,9 +191,7 @@ void subtract_d4(double4*, double4*, double4*);
 void multiply_d4(double4*, double4*, double4*);
 void divide_d4(double4*, double4*, double4*);
 
-void dotF2(float2*, float2*, float*);
-void dotF3(float3*, float3*, float*);
-void dotF4(float4*, float4*, float*);
+void matrix_multiply_d4(matrix_double4x4* , double4*, double4*);
 
 void dotD2(double2*, double2*, double*);
 void dotD3(double3*, double3*, double*);

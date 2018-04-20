@@ -25,6 +25,7 @@ int TestFloat4Matrix();
 
 int TestDouble2Arithmatic();
 int TestDouble4Arithmatic();
+int TestDouble4Matrix();
 
 int TestSingle2DotProduct();
 int TestSingle3DotProduct();
@@ -48,6 +49,7 @@ int main(int argCount, char** args)
     TestDouble4Arithmatic();
     
     TestFloat4Matrix();
+    TestDouble4Matrix();
 
     TestSingle2DotProduct();
     TestSingle3DotProduct();
@@ -62,6 +64,8 @@ int main(int argCount, char** args)
 
 // --------------------------------------------------
 // ------------------------- Tests
+
+// -------------------------------------------------- Float
 
 int TestFloat2Addition()
 {
@@ -129,7 +133,7 @@ int TestFloat4Matrix()
     int sum = 0;
     matrix_float4x4 A;
     float4 b, x;
-    printf("Single2 Precision Arithmetic Tests\n");
+    printf("Single2 Precision Matrix Tests\n");
     
     A.c0.r0 = 1.0;
     A.c0.r1 = 0.0;
@@ -319,6 +323,8 @@ int TestDouble4Arithmatic()
     return sum;
 }
 
+// -------------------------------------------------- Double
+
 int TestDouble2Arithmatic()
 {
     printf("Double2 Arithmatic Tests\n");
@@ -377,6 +383,60 @@ int TestDouble2Arithmatic()
     return sum;
 }
 
+int TestDouble4Matrix()
+{
+    int sum = 0;
+    matrix_double4x4 A;
+    double4 b, x;
+    printf("Double2 Precision Matrix Tests\n");
+    
+    A.c0.r0 = 1.0;
+    A.c0.r1 = 0.0;
+    A.c0.r2 = 0.0;
+    A.c0.r3 = 0.0;
+
+    A.c1.r0 = 0.0;
+    A.c1.r1 = 1.0;
+    A.c1.r2 = 0.0;
+    A.c1.r3 = 0.0;
+
+    A.c2.r0 = 0.0;
+    A.c2.r1 = 0.0;
+    A.c2.r2 = 1.0;
+    A.c2.r3 = 0.0;
+
+    A.c3.r0 = 0.0;
+    A.c3.r1 = 0.0;
+    A.c3.r2 = 0.0;
+    A.c3.r3 = 1.0;
+    
+    x.x = -2.0;
+    x.y = 2.0;
+    x.z = 3.0;
+    x.w = 2.0;
+
+    b.x = 2.0;
+    b.y = 1.0;
+    b.z = 2.0;
+    b.w = -9.0;
+    
+    matrix_multiply_d4(&A, &x, &b); 
+
+    if( b.x != x.x ||
+        b.y != x.y ||
+        b.z != x.z ||
+        b.w != x.w)
+    {
+        printf("Error In Double 4x4 Multiplication\n");
+        printf("b: %f, %f, %f, %f\n", b.x, b.y, b.z, b.w);
+        printf("x: %f, %f, %f, %f\n", x.x, x.y, x.z, x.w);
+        sum++;
+    }
+
+    return sum;
+}
+
+// -------------------------------------------------- DotProd
 
 int TestSingle2DotProduct()
 {
@@ -447,6 +507,8 @@ int TestSingle3DotProduct()
     dotF3( &A, &B, &c);
     if(c != 2.0 )
         printf("dotF3 expected: 0 Got: %f\n", c);
+    
+    return sum;
 }
 
 int TestSingle4DotProduct()
@@ -497,6 +559,8 @@ int TestSingle4DotProduct()
     dotF4( &A, &B, &c);
     if(c != 0.0 )
         printf("dotF4 expected: 0 Got: %f\n", c);
+
+    return sum;
 }
 
 int TestDouble2DotProduct()
@@ -534,6 +598,7 @@ int TestDouble2DotProduct()
     dotD2(&A, &B, &c);
     if(c != -1.0 )
         printf("dotD2 expected: -1 Got: %f\n", c);
+
     return sum;
 }
 
@@ -607,8 +672,8 @@ int TestDouble4DotProduct()
 
     B.x = 1;
     B.y = 0;
-    A.z = 0;
-    A.w = 1.0;
+    B.z = 0;
+    B.w = 1.0;
 
     printf("Testing dotD4\n");
     dotD4(&A, &B, &c);
@@ -622,8 +687,8 @@ int TestDouble4DotProduct()
 
     B.x = 1;
     B.y = 0;
-    A.z = 0;
-    A.w = 1.0;
+    B.z = 0;
+    B.w = 1.0;
 
     printf("Testing dotD4\n");
     dotD4(&A, &B, &c);
@@ -637,8 +702,8 @@ int TestDouble4DotProduct()
 
     B.x = 1;
     B.y = 0;
-    A.z = 1;
-    A.w = 1.0;
+    B.z = 1;
+    B.w = 1.0;
 
     printf("Testing dotD4\n");
     dotD4(&A, &B, &c);
@@ -647,3 +712,5 @@ int TestDouble4DotProduct()
 
     return sum;
 }
+
+// -------------------------------------------------- Cross-Product
