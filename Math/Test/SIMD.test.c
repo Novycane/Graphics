@@ -390,10 +390,10 @@ int TestSingle2DotProduct()
     B.x = 1.0;
     B.y = 0.0;
     
-    printf("Testing Dotf2\n");
+    printf("Testing dotF2\n");
     dotF2( &A, &B, &c);
     if(c != 1.0 )
-        printf("DotF2 expected: 1 Got: %f", c);
+        printf("dotF2 expected: 1 Got: %f\n", c);
 
     A.x = 1.0;
     A.y = 0.0;
@@ -402,7 +402,16 @@ int TestSingle2DotProduct()
     B.y = 1.0;        
     dotF2( &A, &B, &c);
     if(c != 0.0 )
-        printf("DotF2 expected: 0 Got: %f", c);
+        printf("dotF2 expected: 0 Got: %f\n", c);
+
+    A.x = -1.0;
+    A.y = 0.0;
+    
+    B.x = 1.0;
+    B.y = 1.0;        
+    dotF2( &A, &B, &c);
+    if(c != -1.0 )
+        printf("dotF2 expected: 0 Got: %f\n", c);
 
     return sum;
 }
@@ -421,10 +430,23 @@ int TestSingle3DotProduct()
     B.y = 0.0;
     B.z = 0.0;
     
-    printf("Testing Dotf3\n");
+    printf("Testing dotF3\n");
     dotF3( &A, &B, &c);
     if(c != 1.0 )
-        printf("DotF2 expected: 1 Got: %f", c);
+        printf("dotF3 expected: 1 Got: %f\n", c);
+    
+    A.x = 1.0;
+    A.y = 1.0;
+    A.z = -1.0;
+    
+    B.x = 1.0;
+    B.y = 0.0;
+    B.z = -1.0;
+    
+    printf("Testing dotF3\n");
+    dotF3( &A, &B, &c);
+    if(c != 2.0 )
+        printf("dotF3 expected: 0 Got: %f\n", c);
 }
 
 int TestSingle4DotProduct()
@@ -443,10 +465,38 @@ int TestSingle4DotProduct()
     B.z = 0.0;
     B.w = 1.0;
     
-    printf("Testing Dotf2\n");
+    printf("Testing dotF2\n");
     dotF4( &A, &B, &c);
     if(c != 1.0 )
-        printf("DotF4 expected: 1 Got: %f", c);
+        printf("dotF4 expected: 1 Got: %f\n", c);
+    
+    A.x = 1.0;
+    A.y = 0.0;
+    A.z = 0.0;
+    A.w = 1.0;
+    
+    B.x = 0.0;
+    B.y = 1.0;
+    B.z = 0.0;
+    B.w = 1.0;
+    printf("Testing dotF2\n");
+    dotF4( &A, &B, &c);
+    if(c != 0.0 )
+        printf("dotF4 expected: 0 Got: %f\n", c);
+
+    A.x = 1.0;
+    A.y = 0.0;
+    A.z = 1.0;
+    A.w = 1.0;
+    
+    B.x = 0.0;
+    B.y = 1.0;
+    B.z = 0.0;
+    B.w = 1.0;
+    printf("Testing dotF2\n");
+    dotF4( &A, &B, &c);
+    if(c != 0.0 )
+        printf("dotF4 expected: 0 Got: %f\n", c);
 }
 
 int TestDouble2DotProduct()
@@ -460,11 +510,30 @@ int TestDouble2DotProduct()
 
     B.x = 1;
     B.y = 0;
-
-    printf("Testing Dotd2\n");
+    printf("Testing dotD2\n");
     dotD2(&A, &B, &c);
     if(c != 1.0 )
-        printf("DotD2 expected: 1 Got: %f", c);
+        printf("dotD2 expected: 1 Got: %f\n", c);
+
+    A.x = 1;
+    A.y = 0;
+    
+    B.x = 0;
+    B.y = 1;
+    printf("Testing dotD2\n");
+    dotD2(&A, &B, &c);
+    if(c != 0.0 )
+        printf("dotD2 expected: 0 Got: %f\n", c);
+
+    A.x = -1.0;
+    A.y = 0;
+
+    B.x = 1.0;
+    B.y = 1;
+    printf("Testing dotD2\n");
+    dotD2(&A, &B, &c);
+    if(c != -1.0 )
+        printf("dotD2 expected: -1 Got: %f\n", c);
     return sum;
 }
 
@@ -480,12 +549,48 @@ int TestDouble3DotProduct()
 
     B.x = 1;
     B.y = 0;
-    A.z = 0;
-
-    printf("Testing Dotd2\n");
+    B.z = 0;
+    printf("Testing dotD3\n");
     dotD3(&A, &B, &c);
     if(c != 1.0 )
-        printf("DotD3 expected: 1 Got: %f", c);
+        printf("dotD3 expected: 1 Got: %f", c);
+    
+    A.x = 1;
+    A.y = 0;
+    A.z = 0;
+
+    B.x = 0;
+    B.y = 1;
+    B.z = 0;
+    printf("Testing dotD3\n");
+    dotD3(&A, &B, &c);
+    if(c != 0.0 )
+        printf("dotD3 expected: 1 Got: %f", c);
+    
+    A.x = 0;
+    A.y = 0;
+    A.z = 1;
+
+    B.x = 1;
+    B.y = 0;
+    B.z = 1;
+    printf("Testing dotD3\n");
+    dotD3(&A, &B, &c);
+    if(c != 1.0 )
+        printf("dotD3 expected: 1 Got: %f", c);
+
+    A.x = 0;
+    A.y = 1;
+    A.z = 0;
+
+    B.x = 1;
+    B.y = 0;
+    B.z = 1;
+    printf("Testing dotD3\n");
+    dotD3(&A, &B, &c);
+    if(c != 0.0 )
+        printf("dotD3 expected: 0 Got: %f", c);
+
     return sum;
 }
 
@@ -509,6 +614,36 @@ int TestDouble4DotProduct()
     dotD4(&A, &B, &c);
     if(c != 1.0 )
         printf("DotD4 expected: 1 Got: %f", c);
+
+    A.x = 0;
+    A.y = 1;
+    A.z = 0;
+    A.w = 1.0;
+
+    B.x = 1;
+    B.y = 0;
+    A.z = 0;
+    A.w = 1.0;
+
+    printf("Testing dotD4\n");
+    dotD4(&A, &B, &c);
+    if(c != 0.0 )
+        printf("DotD4 expected: 0 Got: %f", c);
+
+    A.x = 0;
+    A.y = 1;
+    A.z = 0;
+    A.w = 1.0;
+
+    B.x = 1;
+    B.y = 0;
+    A.z = 1;
+    A.w = 1.0;
+
+    printf("Testing dotD4\n");
+    dotD4(&A, &B, &c);
+    if(c != 0.0 )
+        printf("DotD4 expected: 0 Got: %f", c);
 
     return sum;
 }
