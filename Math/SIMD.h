@@ -122,6 +122,27 @@ typedef struct
 
 typedef struct 
 {
+    double2 p0;
+    double2 p1;
+    double2 p2;
+} TriangleD2;
+
+typedef struct 
+{
+    double3 p0;
+    double3 p1;
+    double3 p2;
+} TriangleD3 ;
+
+typedef struct 
+{
+    double4 p0;
+    double4 p1;
+    double4 p2;
+} TriangleD4 ;
+
+typedef struct 
+{
     float2 p0;
     float2 p1;
     float2 p2;
@@ -202,5 +223,14 @@ void dotD4(double4*, double4*, double*);
 
 void crossD3(double3*, double3*, double3*);
 void crossD4(double4*, double4*, double4*);
+
+// ------------------------- Poly
+
+void normalF3(TriangleF3*, float3*);
+void normalF4(TriangleF4*, float4*);
+
+void normalD3(TriangleD3*, double3*);
+void normalD4(TriangleD4*, double4*);
+
 
 #endif

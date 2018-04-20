@@ -38,6 +38,31 @@ void divide_f2(float2* A, float2* B, float2* C)
     C->y = A->y / B->y;
 }
 
+void add_f3(float3* A, float3* B, float3* C)
+{
+    C->x = A->x + B->x;
+    C->y = A->y + B->y;
+    C->z = A->z + B->z;
+}
+void subtract_f3(float3* A, float3* B, float3* C)
+{
+    C->x = A->x - B->x;
+    C->y = A->y - B->y;
+    C->z = A->z - B->z;
+}
+void multiply_f3(float3* A, float3* B, float3* C)
+{
+    C->x = A->x * B->x;
+    C->y = A->y * B->y;
+    C->z = A->z * B->z;
+}
+void divide_f3(float3* A, float3* B, float3* C)
+{
+    C->x = A->x / B->x;
+    C->y = A->y / B->y;
+    C->z = A->z / B->z;
+}
+
 void add_f4(float4* A, float4* B, float4* C)
 {
     C->x = A->x + B->x;
@@ -97,6 +122,31 @@ void divide_d2(double2* A, double2* B, double2* C)
     C->y = A->y / B->y;
 }
 
+void add_d3(double3* A, double3* B, double3* C)
+{
+    C->x = A->x + B->x;
+    C->y = A->y + B->y;
+    C->z = A->z + B->z;
+}
+void subtract_d3(double3* A, double3* B, double3* C)
+{
+    C->x = A->x - B->x;
+    C->y = A->y - B->y;
+    C->z = A->z - B->z;
+}
+void multiply_d3(double3* A, double3* B, double3* C)
+{
+    C->x = A->x * B->x;
+    C->y = A->y * B->y;
+    C->z = A->z * B->z;
+}
+void divide_d3(double3* A, double3* B, double3* C)
+{
+    C->x = A->x / B->x;
+    C->y = A->y / B->y;
+    C->z = A->z / B->z;
+}
+
 void add_d4(double4* A, double4* B, double4* C)
 {
     C->x = A->x + B->x;
@@ -134,7 +184,7 @@ void matrix_multiply_d4(matrix_double4x4* A, double4* x, double4* b)
     b->w = (A->c0.r3 * x->x) + (A->c1.r3 * x->y) + (A->c2.r3 * x->z) + (A->c3.r3 * x->w);
 }
 
-// ------------------------- Polygons
+// -------------------------------------------------- Vector PRoducts
 
 void dotF2(float2* A,float2* B, float* c)
 {
@@ -192,6 +242,54 @@ void crossD4(double4* A, double4* B, double4* C)
     C->x = (A->y * B->z) - (A->z * B->y);
     C->y = (A->z * B->x) - (A->x * B->z);
     C->z = (A->x * B->y) - (A->y * B->x);
+}
+
+// -------------------------------------------------- Polygons
+
+void normalF3(TriangleF3* T, float3* N)
+{
+    float3 U, V;
+    subtract_f3(&(T->p1), &(T->p0), &U);
+    subtract_f3(&(T->p2), &(T->p0), &V);
+
+    N->x = (U.y * V.z) - (U.z * V.y);
+    N->y = (U.z * V.x) - (U.x * V.z);
+    N->z = (U.x * V.y) - (U.y * V.x);
+}
+
+void normalF4(TriangleF4* T, float4* N)
+{
+    float4 U, V;
+    subtract_f4(&(T->p1), &(T->p0), &U);
+    subtract_f4(&(T->p2), &(T->p0), &V);
+
+    N->x = (U.y * V.z) - (U.z * V.y);
+    N->y = (U.z * V.x) - (U.x * V.z);
+    N->z = (U.x * V.y) - (U.y * V.x);
+    N->w = 1.0;
+}
+
+void normalD3(TriangleD3* T, double3* N)
+{
+    double3 U, V;
+    subtract_d3(&(T->p1), &(T->p0), &U);
+    subtract_d3(&(T->p2), &(T->p0), &V);
+
+    N->x = (U.y * V.z) - (U.z * V.y);
+    N->y = (U.z * V.x) - (U.x * V.z);
+    N->z = (U.x * V.y) - (U.y * V.x);
+}
+
+void normalD4(TriangleD4* T, double4* N)
+{
+    double4 U, V;
+    subtract_d4(&(T->p1), &(T->p0), &U);
+    subtract_d4(&(T->p2), &(T->p0), &V);
+
+    N->x = (U.y * V.z) - (U.z * V.y);
+    N->y = (U.z * V.x) - (U.x * V.z);
+    N->z = (U.x * V.y) - (U.y * V.x);
+    N->w = 1.0;
 }
 
 
