@@ -17,9 +17,11 @@ BIN			= bin/
 TEST		= Test/
 
 # ----- Targets
-all:	SIMD.o
+all:	Math.o
+
+Math.o: Primatives.o Polygon.o
 	-@ECHO -n "Creating Math.o"
-	-@ld -r $(TEMP)SIMD.o -o $(TEMP)Math.o
+	-@ld -r $(TEMP)Primatives.o $(TEMP)Polygon.o -o $(TEMP)Math.o
 	-@ECHO "...ok"
 
 .PHONY:
@@ -27,19 +29,29 @@ clean:
 	-@ECHO "Cleaning Files"
 	$(REM) $(TEMP)SIMD.o
 
-Test: SIMD.o
+Test: Math.o
 	-@ECHO "Testing Math Routines"
-	-@$(CC) $(CFLAGS) $(TEST)SIMD.test.c -o $(TEMP)SIMD.test.o
-	-@$(CC) $(TEMP)SIMD.o $(TEMP)SIMD.test.o -o $(TEMP)SIMD$(EXT)
-	-@$(TEMP)SIMD$(EXT)
+	-@$(CC) $(CFLAGS) $(TEST)Primatives.test.c -o $(TEMP)Primatives.test.o
+	-@$(CC) $(TEMP)Math.o $(TEMP)Primatives.test.o -o $(TEMP)Primatives$(EXT)
+	-@$(TEMP)Primatives$(EXT)
 
-Bench: SIMD.o
+	-@$(CC) $(CFLAGS) $(TEST)Polygon.test.c -o $(TEMP)Polygon.test.o
+	-@$(CC) $(TEMP)Math.o $(TEMP)Polygon.test.o -o $(TEMP)Polygon$(EXT)
+	-@$(TEMP)Polygon$(EXT)
+
+	
+Bench: Primatives.o
 	-@ECHO "Benchmarking Math Routines..."
-	-@$(CC) $(CFLAGS) $(TEST)SIMD.performance.c -o $(TEMP)SIMD.performance.o
-	-@$(CC) $(TEMP)SIMD.o $(TEMP)SIMD.performance.o -o $(TEMP)Bench$(EXT)
+	-@$(CC) $(CFLAGS) $(TEST)Primatives.performance.c -o $(TEMP)Primatives.performance.o
+	-@$(CC) $(TEMP)Primatives.o $(TEMP)Primatives.performance.o -o $(TEMP)Bench$(EXT)
 	-@$(TEMP)Bench$(EXT)
 
-SIMD.o: SIMD.c SIMD.h
-	-@ECHO -n "Building Math.o"
-	-@$(CC) $(CFLAGS) SIMD.c -o $(TEMP)SIMD.o
+Primatives.o: Primatives.c Primatives.h
+	-@ECHO -n "Building Primatives.o"
+	-@$(CC) $(CFLAGS) Primatives.c -o $(TEMP)Primatives.o
+	-@ECHO "...ok"
+
+Polygon.o: Polygon.c Polygon.h
+	-@ECHO -n "Building Polygon.o"
+	-@$(CC) $(CFLAGS) Polygon.c -o $(TEMP)Polygon.o
 	-@ECHO "...ok"

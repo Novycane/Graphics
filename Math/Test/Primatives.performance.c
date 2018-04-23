@@ -10,7 +10,7 @@
 // --------------------------------------------------
 
 #include <stdio.h>
-#include "../SIMD.h"
+#include "../Primatives.h"
 
 #define _ITERATIONS 10000000
 

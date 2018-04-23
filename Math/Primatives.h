@@ -1,7 +1,7 @@
 // --------------------------------------------------
-// SIMD.h  
+// Primatives.h  
 // 
-// SIMD Routines and Data Structures
+// Primative Data Structures And Math Routines
 //
 // Steven Novak
 //
@@ -9,8 +9,8 @@
 //
 // --------------------------------------------------
 
-#ifndef SIMD_H
-#define SIMD_H
+#ifndef PRIMATIVES_H
+#define PRIMATIVES_H
 
 #define NONOPTIMIZED
 
@@ -96,74 +96,7 @@ typedef struct
     int w;
 } int4;
 
-// -------------------------
-// -------------------------
-
-typedef struct 
-{
-    float2 p0;
-    float2 p1;
-    float2 p2;
-} TriangleF2;
-
-typedef struct 
-{
-    float3 p0;
-    float3 p1;
-    float3 p2;
-} TriangleF3 ;
-
-typedef struct 
-{
-    float4 p0;
-    float4 p1;
-    float4 p2;
-} TriangleF4 ;
-
-typedef struct 
-{
-    double2 p0;
-    double2 p1;
-    double2 p2;
-} TriangleD2;
-
-typedef struct 
-{
-    double3 p0;
-    double3 p1;
-    double3 p2;
-} TriangleD3 ;
-
-typedef struct 
-{
-    double4 p0;
-    double4 p1;
-    double4 p2;
-} TriangleD4 ;
-
-typedef struct 
-{
-    float2 p0;
-    float2 p1;
-    float2 p2;
-    float2 p3;
-} QuadF2;
-
-typedef struct 
-{
-    float3 p0;
-    float3 p1;
-    float3 p2;
-    float3 p3;
-} QuadF3 ;
-
-typedef struct 
-{
-    float4 p0;
-    float4 p1;
-    float4 p2;
-    float4 p3;
-} QuadF4 ;
+// -------------------------------------------------- Maxtrix
 
 typedef struct
 {
@@ -190,6 +123,11 @@ void subtract_f2(float2*, float2*, float2*);
 void multiply_f2(float2*, float2*, float2*);
 void divide_f2(float2*, float2*, float2*);
 
+void add_f3(float3*, float3*, float3*);
+void subtract_f3(float3*, float3*, float3*);
+void multiply_f3(float3*, float3*, float3*);
+void divide_f3(float3*, float3*, float3*);
+
 void add_f4(float4*, float4*, float4*);
 void subtract_f4(float4*, float4*, float4*);
 void multiply_f4(float4*, float4*, float4*);
@@ -210,6 +148,11 @@ void subtract_d2(double2*, double2*, double2*);
 void multiply_d2(double2*, double2*, double2*);
 void divide_d2(double2*, double2*, double2*);
 
+void add_d3(double3*, double3*, double3*);
+void subtract_d3(double3*, double3*, double3*);
+void multiply_d3(double3*, double3*, double3*);
+void divide_d3(double3*, double3*, double3*);
+
 void add_d4(double4*, double4*, double4*);
 void subtract_d4(double4*, double4*, double4*);
 void multiply_d4(double4*, double4*, double4*);
@@ -224,13 +167,7 @@ void dotD4(double4*, double4*, double*);
 void crossD3(double3*, double3*, double3*);
 void crossD4(double4*, double4*, double4*);
 
-// ------------------------- Poly
 
-void normalF3(TriangleF3*, float3*);
-void normalF4(TriangleF4*, float4*);
-
-void normalD3(TriangleD3*, double3*);
-void normalD4(TriangleD4*, double4*);
 
 
 #endif
