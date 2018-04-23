@@ -22,6 +22,42 @@ typedef struct
 {
     float2 p0;
     float2 p1;
+} LineF2;
+
+typedef struct 
+{
+    float3 p0;
+    float3 p1;
+} LineF3;
+
+typedef struct 
+{
+    float4 p0;
+    float4 p1;
+} LineF4;
+
+typedef struct 
+{
+    double2 p0;
+    double2 p1;
+} LineD2;
+
+typedef struct 
+{
+    double3 p0;
+    double3 p1;
+} LineD3;
+
+typedef struct 
+{
+    double4 p0;
+    double4 p1;
+} LineD4;
+
+typedef struct 
+{
+    float2 p0;
+    float2 p1;
     float2 p2;
 } TriangleF2;
 
