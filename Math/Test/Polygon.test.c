@@ -26,6 +26,8 @@ int TestTriangleF4Normal();
 int TestTriangleD3Normal();
 int TestTriangleD4Normal();
 
+int TestMollerTrumboreIntersection();
+
 // --------------------------------------------------
 // ------------------------- Main
 
@@ -36,6 +38,8 @@ int main(int argCount, char** args)
 
     TestTriangleD3Normal();
     TestTriangleD4Normal();
+
+    TestMollerTrumboreIntersection();
 }
 
 // -------------------------------------------------- Normals
@@ -251,4 +255,23 @@ int TestTriangleD4Normal()
     return sum;
 }
 
-// -------------------------------------------------- 
+// -------------------------------------------------- Intersection tests
+
+int TestMollerTrumboreIntersection()
+{
+    int sum = 0;
+
+    TriangleF3 T;
+    LineF3 L;
+
+    printf("Test MollerTrumbore algorithm\n");
+
+    T.p0 = (float3) {0.0, 0.0, 0.0};
+    T.p1 = (float3) {0.0, 0.0, 0.0};
+    T.p2 = (float3) {0.0, 0.0, 0.0};
+
+    L.p0 = (float3) {0.0, 0.0, 0.0};
+    L.p1 = (float3) {0.0, 0.0, 0.0};
+
+    return sum;
+}
