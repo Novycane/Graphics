@@ -61,6 +61,7 @@ void normalD4(TriangleD4* T, double4* N)
 
 // -------------------------------------------------- Intersections
 
+// ----- Möller–Trumbore Algorithm
 int LF3IntersectTF3(float3* origin, float3* vector, TriangleF3* T, float3* out)
 {
     const float e = 1e-5;
