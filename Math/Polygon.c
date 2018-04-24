@@ -59,6 +59,58 @@ void normalD4(TriangleD4* T, double4* N)
     N->z = (U.x * V.y) - (U.y * V.x);
 }
 
+// -------------------------------------------------- Intersections
+
+int LF3IntersectTF3(float3* origin, float3* vector, TriangleF3* T, float3* out)
+{
+    const float e = 1e-5;
+
+    float3 v0 = T->p0;
+    float3 v1 = T->p1;
+    float3 v2 = T->p2;
+
+    float3 e1, e2, h, s, q;
+    float a, f, u, v;
+
+    subtract_f3(&v1, &v0, &e1);
+    subtract_f3(&v2, &v0, &e2);
+
+    crossF3(vector, &e1, &h);
+    dotF3(&e1, &h, &a);
+
+    // check a == 0 (or < epsilon)
+    if(a > -e || a <  e)
+        return 0;
+    f = 1.0 / a;
+    subtract_f3(origin, &v0, &s);
+    dotF3(&s, &h, &u);
+    u *= f;
+    if(u < 0.0 || u > 1.0)
+        return 0;
+    crossF3(&s, &e1, &q);
+    dotF3(vector, &q, &v);
+    v *= f;
+
+    if(v < 0.0 || u + v > 1.0)
+        return 0;
+    
+    float t;
+    dotF3(&e2, &q, &t);
+    t *= f;
+
+    if (t > e)
+    {
+        //out = rayOrigin + rayVector * t; 
+        out->x = vector->x * t;
+        out->y = vector->y * t;
+        out->z = vector->z * t;
+        add_f3(origin, out, out);
+        return 1;
+    }
+    else 
+        return 0;
+}
+
 #else
 
 #endif

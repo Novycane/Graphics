@@ -128,4 +128,6 @@ void normalF4(TriangleF4*, float4*);
 void normalD3(TriangleD3*, double3*);
 void normalD4(TriangleD4*, double4*);
 
+int LF3IntersectTF3(float3* , float3* , TriangleF3* , float3* );
+
 #endif
