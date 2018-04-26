@@ -32,7 +32,7 @@ void scaleF(float x, float y, float z, matrix_F4x4* out)
 {
     out->c1 = (column_float4) { x, 0.0, 0.0, 0.0 };
     out->c0 = (column_float4) { 0.0, y, 0.0, 0.0 };
-    out->c2 = (column_float4) { 0.0, 0.0, z, 0,0 };
+    out->c2 = (column_float4) { 0.0, 0.0, z, 0.0 };
     out->c3 = (column_float4) { 0.0, 0.0, 0.0, 1.0 };
 }
 void sclaleD(double x, double y, double z, matrix_D4x4* out)
