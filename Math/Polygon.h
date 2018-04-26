@@ -1,7 +1,7 @@
 // --------------------------------------------------
 // Polygon.h  
 // 
-// Polygot Routines and Data Structures
+// Polygon Routines and Data Structures
 //
 // Steven Novak
 //

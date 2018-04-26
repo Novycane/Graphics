@@ -142,7 +142,7 @@ int TestFloat2Addition()
 int TestFloat4Matrix()
 {
     int sum = 0;
-    matrix_float4x4 A;
+    matrix_F4x4 A;
     float4 b, x;
     printf("Single2 Precision Matrix Tests\n");
     
@@ -397,7 +397,7 @@ int TestDouble2Arithmatic()
 int TestDouble4Matrix()
 {
     int sum = 0;
-    matrix_double4x4 A;
+    matrix_D4x4 A;
     double4 b, x;
     printf("Double2 Precision Matrix Tests\n");
     
