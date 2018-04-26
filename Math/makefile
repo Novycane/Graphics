@@ -19,9 +19,9 @@ TEST		= Test/
 # ----- Targets
 all:	Math.o
 
-Math.o: Primatives.o Polygon.o
+Math.o: Primatives.o Polygon.o Affine.o
 	-@ECHO -n "Creating Math.o"
-	-@ld -r $(TEMP)Primatives.o $(TEMP)Polygon.o -o $(TEMP)Math.o
+	-@ld -r $(TEMP)Primatives.o $(TEMP)Polygon.o $(TEMP)Affine.o -o $(TEMP)Math.o
 	-@ECHO "...ok"
 
 .PHONY:
@@ -39,7 +39,10 @@ Test: Math.o
 	-@$(CC) $(TEMP)Math.o $(TEMP)Polygon.test.o -o $(TEMP)Polygon$(EXT)
 	-@$(TEMP)Polygon$(EXT)
 
-	
+	-@$(CC) $(CFLAGS) $(TEST)Affine.test.c -o $(TEMP)Affine.test.o
+	-@$(CC) $(TEMP)Math.o $(TEMP)Affine.test.o -o $(TEMP)Affine$(EXT)
+	-@$(TEMP)Affine$(EXT)
+
 Bench: Primatives.o
 	-@ECHO "Benchmarking Math Routines..."
 	-@$(CC) $(CFLAGS) $(TEST)Primatives.performance.c -o $(TEMP)Primatives.performance.o
@@ -54,4 +57,9 @@ Primatives.o: Primatives.c Primatives.h
 Polygon.o: Polygon.c Polygon.h
 	-@ECHO -n "Building Polygon.o"
 	-@$(CC) $(CFLAGS) Polygon.c -o $(TEMP)Polygon.o
+	-@ECHO "...ok"
+
+Affine.o: Affine.c Affine.h
+	-@ECHO -n "Building Affine.o"
+	-@$(CC) $(CFLAGS) Affine.c -o $(TEMP)Affine.o
 	-@ECHO "...ok"

@@ -1,7 +1,7 @@
 // --------------------------------------------------
-// Affline.h  
+// Affine.h  
 // 
-// Affline Transform Routines
+// Affine Transform Routines
 //
 // Steven Novak
 //
@@ -9,7 +9,7 @@
 //
 // --------------------------------------------------
 
-#include "Affline.h"
+#include "Affine.h"
 
 #ifdef NONOPTIMIZED
 
