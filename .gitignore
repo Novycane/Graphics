@@ -10,6 +10,8 @@ $ cat .gitignore
 /Math/Temp
 
 !/FileHandling
+!/FileHandling/Test
+/FileHandling/Temp
 
 !/Utils
 !/Utils/Test
