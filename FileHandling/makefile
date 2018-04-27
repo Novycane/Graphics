@@ -27,9 +27,9 @@ FileHandling.o: ObjFile.o
 .PHONY:
 clean:
 	-@ECHO "Cleaning Files"
-	$(REM) $(TEMP)SIMD.o
+	$(REM) $(TEMP)ObjFile.o
 
-Test: ObjFile.o
+Test: FileHandling.o
 	-@ECHO "Testing File Handling Routines"
 	-@$(CC) $(CFLAGS) $(TEST)ObjFile.test.c -o $(TEMP)ObjFile.test.o
 	-@$(CC) $(TEMP)FileHandling.o $(TEMP)ObjFile.test.o -o $(TEMP)ObjFile$(EXT)

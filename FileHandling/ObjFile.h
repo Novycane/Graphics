@@ -12,6 +12,13 @@
 #ifndef OBJFILE_H
 #define OBJFILE_H
 
+#include <stdio.h>
 
+// -------------------------------------------------- Structs
+
+
+// -------------------------------------------------- Functions
+
+int EchoFile(char* fileName);
 
 #endif
