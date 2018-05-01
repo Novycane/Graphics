@@ -4,6 +4,7 @@ $ cat .gitignore
 /*
 !/.gitignore
 !/makefile
+/**/.DS_Store
 
 !/Math
 !/Math/Test
