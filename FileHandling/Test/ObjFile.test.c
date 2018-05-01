@@ -10,6 +10,7 @@
 // --------------------------------------------------
 
 #include <stdio.h>
+#include <memory.h>
 #include "../ObjFile.h"
 
 // --------------------------------------------------
@@ -35,9 +36,14 @@ int main(int argCount, char** args)
 int TestOpenFile()
 {
     int sum = 0;
+    float3* verticies = NULL;
+
     printf("Testing Obj File Opening\n");
 
-    EchoFile("cube.obj");
+    //printf("%lu\n", (unsigned long)verticies);
+    ReadOBJFile("./Test/cube.obj", 0, &verticies);
+    //printf("%lu\n", (unsigned long)verticies);
 
+    free(verticies);
     return sum;
 }
