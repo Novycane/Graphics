@@ -20,10 +20,16 @@
 
 // -------------------------------------------------- Structs
 
+typedef struct 
+{
+    float3* Verticies;
+    float3* Normals;
+    float2* Texture;
+} VertexBuffers;
 
 // -------------------------------------------------- Functions
 
-int ReadOBJFile(char* fileName, unsigned int FLAGS, float3** verticies);
+int ReadOBJFile(char* fileName, unsigned int FLAGS, VertexBuffers* buffers);
 
 int EchoFile(char* fileName);
 

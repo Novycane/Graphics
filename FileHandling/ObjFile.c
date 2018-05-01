@@ -28,7 +28,7 @@ void parseFloat2(char* line, float2* out);
 
 // -------------------------------------------------- Functions
 
-int ReadOBJFile(char* fileName, unsigned int FLAGS, float3** verticies)
+int ReadOBJFile(char* fileName, unsigned int FLAGS, VertexBuffers* buffers)
 {
     FILE *file;
     fpos_t beginning;
@@ -83,7 +83,9 @@ int ReadOBJFile(char* fileName, unsigned int FLAGS, float3** verticies)
 
     //printf("Verticies: %d\nNormals: %d\nTextureCoordinates: %d\n", numVerticies, numNormals, numTextureCoordinates);
 
-    *verticies = (float3*) malloc(sizeof(float3) * numVerticies);
+    buffers->Verticies = (float3*) malloc(sizeof(float3) * numVerticies);
+    buffers->Normals = (float3*) malloc(sizeof(float3) * numNormals);
+    buffers->Texture = (float2*) malloc(sizeof(float2) * numTextureCoordinates);
 
     fsetpos(file, &beginning);
 
@@ -94,18 +96,21 @@ int ReadOBJFile(char* fileName, unsigned int FLAGS, float3** verticies)
         while(*ch != ' ')
             ch++;
         *(ch++) = '\0';
-        //printf("-%s-\n", buffer);
+
         if(!strcmp(buffer, "v"))
         {
-            parseFloat3(ch, *verticies);
+            parseFloat3(ch, buffers->Verticies);
+            buffers->Verticies++;
         }        
         else if(!strcmp(buffer, "vn"))
         {
-            //parseFloat3(ch, *normals);
+            parseFloat3(ch, buffers->Normals);
+            buffers->Normals++;
         }
         else if(!strcmp(buffer, "vt"))
         {
-            //parseFloat2(ch, NULL);
+            parseFloat2(ch, buffers->Texture);
+            buffers->Texture++;
         }
         else if(!strcmp(buffer, "o"))
         {
@@ -119,6 +124,19 @@ int ReadOBJFile(char* fileName, unsigned int FLAGS, float3** verticies)
 
     fclose(file);
 
+    buffers->Verticies -= numVerticies;
+    buffers->Normals -= numNormals;
+    buffers->Texture -= numTextureCoordinates;
+
+    /*
+    for(int i=0; i<numVerticies; i++)
+        printf("%d, %f, %f, %f\n", i, buffers->Verticies[i].x, buffers->Verticies[i].y, buffers->Verticies[i].z);
+    for(int i=0; i<numNormals; i++)
+        printf("%d, %f, %f, %f\n", i, buffers->Normals[i].x, buffers->Normals[i].y, buffers->Normals[i].z);
+    for(int i=0; i<numTextureCoordinates; i++)
+        printf("%d, %f, %f\n", i, buffers->Texture[i].x, buffers->Texture[i].y);
+    */
+   
     return 0;
 }
 
@@ -149,7 +167,27 @@ void parseFloat3(char* line, float3* out)
 
 void parseFloat2(char* line, float2* out)
 {
-    printf("%s", line);
+    float* coordinate = (float*)out;
+    int index = 0;
+    char c[MAX_BUFFER];
+    char* cp = line;
+    
+    while (*cp != '\0')
+    {
+        if(*cp == ' ' || *cp == '\n')
+        {
+            c[index] = '\0';
+            index = 0;
+            *coordinate = atof(c);
+            coordinate++;
+        }
+        else
+        {
+            c[index++] = *cp;
+        }
+
+        cp++;
+    }
 }
 
 int EchoFile(char* fileName)
