@@ -36,20 +36,31 @@ int main(int argCount, char** args)
 int TestOpenFile()
 {
     int sum = 0;
-    VertexBuffers buffer;
-    buffer.Verticies = NULL;
-    buffer.Normals = NULL;
-    buffer.Texture = NULL;
+    VertexBuffers vertexbuffer;
+    TriangleIndexBuffers indexBuffer;
+    
+    vertexbuffer.Verticies = NULL;
+    vertexbuffer.Normals = NULL;
+    vertexbuffer.Texture = NULL;
+    
+    indexBuffer.Verticies = NULL;
+    indexBuffer.Normals = NULL;
+    indexBuffer.Texture = NULL;
 
     printf("Testing Obj File Opening\n");
 
-    //printf("%lu\n", (unsigned long)verticies);
-    ReadOBJFile("./Test/cube.obj", 0, &buffer);
-    //printf("%lu\n", (unsigned long)verticies);
+    ReadOBJFile("./Test/cube.obj", 0, &vertexbuffer, &indexBuffer);
+    
+    // Need to put a test here....
+    // 05/01/2018
 
-    free(buffer.Verticies);
-    free(buffer.Normals);
-    free(buffer.Texture);
+    free(vertexbuffer.Verticies);
+    free(vertexbuffer.Normals);
+    free(vertexbuffer.Texture);
+    
+    free(indexBuffer.Verticies);
+    free(indexBuffer.Normals);
+    free(indexBuffer.Texture);
     
     return sum;
 }

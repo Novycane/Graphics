@@ -22,14 +22,25 @@
 
 typedef struct 
 {
+    unsigned int numVerticies;
+    unsigned int numNormals;
+    unsigned int numTextureCoordinates;
     float3* Verticies;
     float3* Normals;
     float2* Texture;
 } VertexBuffers;
 
+typedef struct 
+{
+    unsigned int numIndicies;
+    triIndex* Verticies;
+    triIndex* Normals;
+    triIndex* Texture;
+} TriangleIndexBuffers;
+
 // -------------------------------------------------- Functions
 
-int ReadOBJFile(char* fileName, unsigned int FLAGS, VertexBuffers* buffers);
+int ReadOBJFile(char* fileName, unsigned int FLAGS, VertexBuffers* vertexBuffers, TriangleIndexBuffers* indexBuffers);
 
 int EchoFile(char* fileName);
 

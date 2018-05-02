@@ -23,22 +23,24 @@ enum state
 typedef enum state state_t;
 
 // -------------------------------------------------- Declarations
+void countVertices(FILE* file, unsigned int* numVerticies, unsigned int* numNormals, unsigned int* numTextureCoordinates, unsigned int* numIndicies);
 void parseFloat3(char* line, float3* out);
 void parseFloat2(char* line, float2* out);
+void parseFace(char* line, TriangleIndexBuffers* out);
 
 // -------------------------------------------------- Functions
 
-int ReadOBJFile(char* fileName, unsigned int FLAGS, VertexBuffers* buffers)
+int ReadOBJFile(char* fileName, unsigned int FLAGS, VertexBuffers* vertexBuffers, TriangleIndexBuffers* indexBuffers)
 {
     FILE *file;
-    fpos_t beginning;
-    int index = 0;
-    int numVerticies = 0, numNormals = 0, numTextureCoordinates = 0;
-    char buffer[MAX_BUFFER];
-    char c;
+    vertexBuffers->numVerticies = 0;
+    vertexBuffers->numNormals = 0;
+    vertexBuffers->numTextureCoordinates = 0;
+    indexBuffers->numIndicies = 0; 
 
+    char buffer[MAX_BUFFER];
+     
     file = fopen(fileName, "r");
-    fgetpos(file, &beginning);
     
     if(file == NULL)
     {
@@ -46,7 +48,70 @@ int ReadOBJFile(char* fileName, unsigned int FLAGS, VertexBuffers* buffers)
         return -1;
     }
 
-    c = getc(file);
+    countVertices(file, &(vertexBuffers->numVerticies), &(vertexBuffers->numNormals), &(vertexBuffers->numTextureCoordinates), &(indexBuffers->numIndicies));
+    
+    vertexBuffers->Verticies = (float3*) malloc(sizeof(float3) * vertexBuffers->numVerticies);
+    vertexBuffers->Normals = (float3*) malloc(sizeof(float3) * vertexBuffers->numNormals);
+    vertexBuffers->Texture = (float2*) malloc(sizeof(float2) * vertexBuffers->numTextureCoordinates);
+
+    indexBuffers->Verticies = (triIndex*) malloc(sizeof(triIndex) * indexBuffers->numIndicies);
+    indexBuffers->Normals = (triIndex*) malloc(sizeof(triIndex) * indexBuffers->numIndicies);
+    indexBuffers->Texture = (triIndex*) malloc(sizeof(triIndex) * indexBuffers->numIndicies);
+    
+    
+    while(fgets(buffer, MAX_BUFFER, file) != NULL)
+    {
+        
+        char* ch = buffer;
+        while(*ch != ' ')
+            ch++;
+        *(ch++) = '\0';
+
+        if(!strcmp(buffer, "v"))
+        {
+            parseFloat3(ch, vertexBuffers->Verticies);
+            vertexBuffers->Verticies++;
+        }        
+        else if(!strcmp(buffer, "vn"))
+        {
+            parseFloat3(ch, vertexBuffers->Normals);
+            vertexBuffers->Normals++;
+        }
+        else if(!strcmp(buffer, "vt"))
+        {
+            parseFloat2(ch, vertexBuffers->Texture);
+            vertexBuffers->Texture++;
+        }
+        else if(!strcmp(buffer, "o"))
+        {
+            // Objects
+        }
+        else if(!strcmp(buffer, "f"))
+        {
+            parseFace(ch, indexBuffers);
+        }
+    }
+
+    fclose(file);
+
+    vertexBuffers->Verticies -= vertexBuffers->numVerticies;
+    vertexBuffers->Normals -= vertexBuffers->numNormals;
+    vertexBuffers->Texture -= vertexBuffers->numTextureCoordinates;
+
+    indexBuffers->Verticies -= indexBuffers->numIndicies;
+    indexBuffers->Normals -= indexBuffers->numIndicies;
+    indexBuffers->Texture -= indexBuffers->numIndicies;
+   
+    return 0;
+}
+
+void countVertices(FILE* file, unsigned int* numVerticies, unsigned int* numNormals, unsigned int* numTextureCoordinates, unsigned int* numIndicies)
+{
+    char c = getc(file);
+    int index = 0;
+    char buffer[MAX_BUFFER];
+    fpos_t beginning;
+    fgetpos(file, &beginning);
 
     while(c != EOF)
     {
@@ -54,16 +119,15 @@ int ReadOBJFile(char* fileName, unsigned int FLAGS, VertexBuffers* buffers)
         {
             case ' ':
                 buffer[index++] = '\0';
-                //printf("%s\n", buffer);
                 index = 0;
-
                 if(strcmp(buffer, "v") == 0)
-                    numVerticies++;
+                    (*numVerticies)++;
                 else if(strcmp(buffer, "vn") == 0)
-                    numNormals++;
+                    (*numNormals)++;
                 else if(strcmp(buffer, "vt") == 0)
-                    numTextureCoordinates++;
-
+                    (*numTextureCoordinates)++;
+                else if(strcmp(buffer, "f") == 0)
+                    (*numIndicies)++;
                 break;
             case '/':
                 buffer[index++] = '\0';
@@ -77,70 +141,36 @@ int ReadOBJFile(char* fileName, unsigned int FLAGS, VertexBuffers* buffers)
                 buffer[index++] = c;
                 break;
         }
-
         c = getc(file);
     }
-
-    //printf("Verticies: %d\nNormals: %d\nTextureCoordinates: %d\n", numVerticies, numNormals, numTextureCoordinates);
-
-    buffers->Verticies = (float3*) malloc(sizeof(float3) * numVerticies);
-    buffers->Normals = (float3*) malloc(sizeof(float3) * numNormals);
-    buffers->Texture = (float2*) malloc(sizeof(float2) * numTextureCoordinates);
-
     fsetpos(file, &beginning);
-
-    while(fgets(buffer, MAX_BUFFER, file) != NULL)
-    {
-        
-        char* ch = buffer;
-        while(*ch != ' ')
-            ch++;
-        *(ch++) = '\0';
-
-        if(!strcmp(buffer, "v"))
-        {
-            parseFloat3(ch, buffers->Verticies);
-            buffers->Verticies++;
-        }        
-        else if(!strcmp(buffer, "vn"))
-        {
-            parseFloat3(ch, buffers->Normals);
-            buffers->Normals++;
-        }
-        else if(!strcmp(buffer, "vt"))
-        {
-            parseFloat2(ch, buffers->Texture);
-            buffers->Texture++;
-        }
-        else if(!strcmp(buffer, "o"))
-        {
-            // Objects
-        }
-        else if(!strcmp(buffer, "f"))
-        {
-            // Faces
-        }
-    }
-
-    fclose(file);
-
-    buffers->Verticies -= numVerticies;
-    buffers->Normals -= numNormals;
-    buffers->Texture -= numTextureCoordinates;
-
-    /*
-    for(int i=0; i<numVerticies; i++)
-        printf("%d, %f, %f, %f\n", i, buffers->Verticies[i].x, buffers->Verticies[i].y, buffers->Verticies[i].z);
-    for(int i=0; i<numNormals; i++)
-        printf("%d, %f, %f, %f\n", i, buffers->Normals[i].x, buffers->Normals[i].y, buffers->Normals[i].z);
-    for(int i=0; i<numTextureCoordinates; i++)
-        printf("%d, %f, %f\n", i, buffers->Texture[i].x, buffers->Texture[i].y);
-    */
-   
-    return 0;
 }
 
 void parseFloat3(char* line, float3* out)
+{
+    float* coordinate = (float*)out;
+    int index = 0;
+    char c[MAX_BUFFER];
+    char* cp = line;
+    
+    while (*cp != '\0')
+    {
+        if(*cp == ' ' || *cp == '\n')
+        {
+            c[index] = '\0';
+            index = 0;
+            *coordinate = atof(c);
+            coordinate++;
+        }
+        else
+        {
+            c[index++] = *cp;
+        }
+        cp++;
+    }
+}
+
+void parseFloat2(char* line, float2* out)
 {
     float* coordinate = (float*)out;
     int index = 0;
@@ -165,21 +195,60 @@ void parseFloat3(char* line, float3* out)
     }
 }
 
-void parseFloat2(char* line, float2* out)
+void parseFace(char* line, TriangleIndexBuffers* out)
 {
-    float* coordinate = (float*)out;
+    int temp;
     int index = 0;
     char c[MAX_BUFFER];
     char* cp = line;
-    
+    int state = 0;
+
     while (*cp != '\0')
     {
-        if(*cp == ' ' || *cp == '\n')
+        if(*cp == ' ' || *cp == '\n' || *cp == '/')
         {
             c[index] = '\0';
             index = 0;
-            *coordinate = atof(c);
-            coordinate++;
+            temp = atoi(c);
+            
+            switch (state)
+            {
+                case 0:
+                    out->Verticies->p0 = temp;
+                    break;
+                case 1: 
+                    out->Texture->p0 = temp;
+                    break;
+                case 2:
+                    out->Normals->p0 = temp;
+                    break;
+
+                case 3:
+                    out->Verticies->p1 = temp;
+                    break;
+                case 4: 
+                    out->Texture->p1 = temp;
+                    break;
+                case 5:
+                    out->Normals->p1 = temp;
+                    break;
+
+                case 6:
+                    out->Verticies->p2 = temp;
+                    break;
+                case 7: 
+                    out->Texture->p2 = temp;
+                    break;
+                case 8:
+                    out->Normals->p2 = temp;
+                    out->Normals++;
+                    out->Texture++;
+                    out->Verticies++;
+                    break;
+            }
+            state++;
+            if(state > 8)
+                state = 0;
         }
         else
         {
