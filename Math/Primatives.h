@@ -96,6 +96,21 @@ typedef struct
     int w;
 } int4;
 
+typedef struct
+{
+    unsigned int p0;
+    unsigned int p1;
+    unsigned int p2;
+} triIndex;
+
+typedef struct
+{
+    unsigned int p0;
+    unsigned int p1;
+    unsigned int p2;
+    unsigned int p3;
+} quadIndex;
+
 // -------------------------------------------------- Maxtrix
 
 typedef struct
