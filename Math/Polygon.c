@@ -112,6 +112,14 @@ int LF3IntersectTF3(float3* origin, float3* vector, TriangleF3* T, float3* out)
         return 0;
 }
 
+int planeFromTriF3(TriangleF3* T, QuadF4* plane)
+{
+    float3* N;
+    normalF3(T, N);
+    
+    return 1;
+}
+
 #else
 
 #endif
