@@ -1,12 +1,13 @@
 ifeq ($(OS),Windows_NT)
 EXT = .exe
 REM = rm
+CC 			= gcc
 else
+CC 			= clang
 REM = del
 endif
 
 # ----- Compiler
-CC 			= clang
 CFLAGS		= -g -Wall -c
 TFLAGS		= -g -Wall -std=c++14	
 LFLAGS		= -g -lc++
