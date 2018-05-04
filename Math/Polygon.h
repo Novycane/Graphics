@@ -130,4 +130,6 @@ void normalD4(TriangleD4*, double4*);
 
 int LF3IntersectTF3(float3* origin, float3* vector, TriangleF3* T, float3* out);
 
+int planeFromTriF3(TriangleF3* T, QuadF4* plane);
+
 #endif

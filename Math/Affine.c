@@ -15,51 +15,63 @@
 
 void transformF(float x, float y, float z, matrix_F4x4* out)
 {
-    out->c1 = (column_float4) { 1.0, 0.0, 0.0, x };
-    out->c0 = (column_float4) { 0.0, 1.0, 0.0, y };
-    out->c2 = (column_float4) { 0.0, 0.0, 1.0, z };
-    out->c3 = (column_float4) { 0.0, 0.0, 0.0, 1.0 };
+    out->c0 = (column_float4) { 1.0, 0.0, 0.0, 0.0 };
+    out->c1 = (column_float4) { 0.0, 1.0, 0.0, 0.0 };
+    out->c2 = (column_float4) { 0.0, 0.0, 1.0, 0.0 };
+    out->c3 = (column_float4) {   x,   y,   z, 1.0 };
 }
 void transformD(double x, double y, double z, matrix_D4x4* out)
 {
-    out->c1 = (column_double4) { 1.0, 0.0, 0.0, x };
-    out->c0 = (column_double4) { 0.0, 1.0, 0.0, y };
-    out->c2 = (column_double4) { 0.0, 0.0, 1.0, z };
-    out->c3 = (column_double4) { 0.0, 0.0, 0.0, 1.0 };
+    out->c0 = (column_double4) { 1.0, 0.0, 0.0, 0.0 };
+    out->c1 = (column_double4) { 0.0, 1.0, 0.0, 0.0 };
+    out->c2 = (column_double4) { 0.0, 0.0, 1.0, 0.0 };
+    out->c3 = (column_double4) {   x,   y,   z, 1.0 };
 }
 
 void scaleF(float x, float y, float z, matrix_F4x4* out)
 {
-    out->c1 = (column_float4) { x, 0.0, 0.0, 0.0 };
-    out->c0 = (column_float4) { 0.0, y, 0.0, 0.0 };
+    out->c0 = (column_float4) { x, 0.0, 0.0, 0.0 };
+    out->c1 = (column_float4) { 0.0, y, 0.0, 0.0 };
     out->c2 = (column_float4) { 0.0, 0.0, z, 0.0 };
     out->c3 = (column_float4) { 0.0, 0.0, 0.0, 1.0 };
 }
 void sclaleD(double x, double y, double z, matrix_D4x4* out)
 {
-    out->c1 = (column_double4) { x, 0.0, 0.0, 0.0 };
-    out->c0 = (column_double4) { 0.0, y, 0.0, 0.0 };
+    out->c0 = (column_double4) { x, 0.0, 0.0, 0.0 };
+    out->c1 = (column_double4) { 0.0, y, 0.0, 0.0 };
     out->c2 = (column_double4) { 0.0, 0.0, z, 0.0 };
     out->c3 = (column_double4) { 0.0, 0.0, 0.0, 1.0 };
 }
 
-void roatateF(float angleX, float angleY, float angleZ, matrix_F4x4* out)
+void rotateF(float angleX, float angleY, float angleZ, matrix_F4x4* out)
 {
-    /*
-    out->c1 = (column_float4) { 0.0, 1.0 / tan(field / 2), 0.0, 0.0 };
-    out->c0 = (column_float4) { out->c1.r1 / aspect, 0.0, 0.0, 0.0 };
-    out->c2 = (column_float4) { 0.0, 0.0, -(far + near) / fn, -1.0 };
-    out->c3 = (column_float4) { 0.0, 0.0, -2 * (far * near) / fn, 0.0 };
-    */
+    float cx = cos(angleX);
+    float cy = cos(angleY);
+    float cz = cos(angleZ);
+
+    float sx = sin(angleX);
+    float sy = sin(angleY);
+    float sz = sin(angleZ);
+
+    out->c0 = (column_float4) { cy * cz , sx * sy * cz + cx * sz, -cx * sy * cz + sx * sz, 0.0 };
+    out->c1 = (column_float4) { 0.0, -sx * sy * sz + cx * cz, -sx * cy, 0.0 };
+    out->c2 = (column_float4) { sy, -sx * cy, cx * cy, 0.0 };
+    out->c3 = (column_float4) { 0.0, 0.0, 0.0, 1.0 };
 }
-void roatateD(double angleX, double angleY, double angleZ, matrix_D4x4* out)
+void rotateD(double angleX, double angleY, double angleZ, matrix_D4x4* out)
 {
-    /*
-    out->c1 = (column_double4) { 0.0, 1.0 / tan(field / 2), 0.0, 0.0 };
-    out->c0 = (column_double4) { out->c1.r1 / aspect, 0.0, 0.0, 0.0 };
-    out->c2 = (column_double4) { 0.0, 0.0, -(far + near) / fn, -1.0 };
-    out->c3 = (column_double4) { 0.0, 0.0, -2 * (far * near) / fn, 0.0 };
-    */
+    double cx = cos(angleX);
+    double cy = cos(angleY);
+    double cz = cos(angleZ);
+
+    double sx = sin(angleX);
+    double sy = sin(angleY);
+    double sz = sin(angleZ);
+
+    out->c0 = (column_double4) { cy * cz , sx * sy * cz + cx * sz, -cx * sy * cz + sx * sz, 0.0 };
+    out->c1 = (column_double4) { 0.0, -sx * sy * sz + cx * cz, -sx * cy, 0.0 };
+    out->c2 = (column_double4) { sy, -sx * cy, cx * cy, 0.0 };
+    out->c3 = (column_double4) { 0.0, 0.0, 0.0, 1.0 };
 }
 
 
