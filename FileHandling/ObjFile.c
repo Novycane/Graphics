@@ -30,7 +30,7 @@ void parseFace(char* line, TriangleIndexBuffers* out);
 
 // -------------------------------------------------- Functions
 
-int ReadOBJFile(char* fileName, unsigned int FLAGS, VertexBuffers* vertexBuffers, TriangleIndexBuffers* indexBuffers)
+int ReadOBJFile(const char* fileName, unsigned int FLAGS, VertexBuffers* vertexBuffers, TriangleIndexBuffers* indexBuffers)
 {
     FILE *file;
     vertexBuffers->numVerticies = 0;
@@ -209,7 +209,7 @@ void parseFace(char* line, TriangleIndexBuffers* out)
         {
             c[index] = '\0';
             index = 0;
-            temp = atoi(c);
+            temp = atoi(c) - 1;
             
             switch (state)
             {

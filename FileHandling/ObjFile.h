@@ -40,7 +40,7 @@ typedef struct
 
 // -------------------------------------------------- Functions
 
-int ReadOBJFile(char* fileName, unsigned int FLAGS, VertexBuffers* vertexBuffers, TriangleIndexBuffers* indexBuffers);
+int ReadOBJFile(const char* fileName, unsigned int FLAGS, VertexBuffers* vertexBuffers, TriangleIndexBuffers* indexBuffers);
 
 int EchoFile(char* fileName);
 
