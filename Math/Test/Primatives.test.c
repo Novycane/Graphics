@@ -142,7 +142,7 @@ int TestFloat2Addition()
 int TestFloat4Matrix()
 {
     int sum = 0;
-    matrix_F4x4 A;
+    matrix_F4x4 A, B, C;
     float4 b, x;
     printf("Single2 Precision Matrix Tests\n");
     
@@ -165,6 +165,26 @@ int TestFloat4Matrix()
     A.c3.r1 = 0.0;
     A.c3.r2 = 0.0;
     A.c3.r3 = 1.0;
+
+    B.c0.r0 = 2.0;
+    B.c0.r1 = 2.0;
+    B.c0.r2 = 3.0;
+    B.c0.r3 = 3.0;
+
+    B.c1.r0 = 6.0;
+    B.c1.r1 = 6.0;
+    B.c1.r2 = 6.0;
+    B.c1.r3 = 6.0;
+
+    B.c2.r0 = 4.0;
+    B.c2.r1 = 7.0;
+    B.c2.r2 = 2.0;
+    B.c2.r3 = 1.0;
+
+    B.c3.r0 = 3.0;
+    B.c3.r1 = 0.0;
+    B.c3.r2 = 6.0;
+    B.c3.r3 = 1.0;
     
     x.x = -2.0;
     x.y = 2.0;
@@ -186,6 +206,37 @@ int TestFloat4Matrix()
         printf("Error In Single 4x4 Multiplication\n");
         printf("b: %f, %f, %f, %f\n", b.x, b.y, b.z, b.w);
         printf("x: %f, %f, %f, %f\n", x.x, x.y, x.z, x.w);
+        sum++;
+    }
+
+    matrix_multiply_f4x4(&A, &B, &C); 
+    if( B.c0.r0 != C.c0.r0 ||
+        B.c1.r0 != C.c1.r0 ||
+        B.c2.r0 != C.c2.r0 ||
+        B.c3.r0 != C.c3.r0 ||
+        B.c0.r1 != C.c0.r1 ||
+        B.c1.r1 != C.c1.r1 ||
+        B.c2.r1 != C.c2.r1 ||
+        B.c3.r1 != C.c3.r1 ||
+        B.c0.r2 != C.c0.r2 ||
+        B.c1.r2 != C.c1.r2 ||
+        B.c2.r2 != C.c2.r2 ||
+        B.c3.r2 != C.c3.r2 ||
+        B.c0.r3 != C.c0.r3 ||
+        B.c1.r3 != C.c1.r3 ||
+        B.c2.r3 != C.c2.r3 ||
+        B.c3.r3 != C.c3.r3)
+    {
+        printf("Error In Single 4x4 Multiplication\n");
+        printf("B: %f, %f, %f, %f\n", B.c0.r0, B.c1.r0, B.c2.r0, B.c3.r0);
+        printf("B: %f, %f, %f, %f\n", B.c0.r1, B.c1.r1, B.c2.r1, B.c3.r1);
+        printf("B: %f, %f, %f, %f\n", B.c0.r2, B.c1.r2, B.c2.r2, B.c3.r2);
+        printf("B: %f, %f, %f, %f\n\n", B.c0.r3, B.c1.r3, B.c2.r3, B.c3.r3);
+
+        printf("C: %f, %f, %f, %f\n", C.c0.r0, C.c1.r0, C.c2.r0, C.c3.r0);
+        printf("C: %f, %f, %f, %f\n", C.c0.r1, C.c1.r1, C.c2.r1, C.c3.r1);
+        printf("C: %f, %f, %f, %f\n", C.c0.r2, C.c1.r2, C.c2.r2, C.c3.r2);
+        printf("C: %f, %f, %f, %f\n\n", C.c0.r3, C.c1.r3, C.c2.r3, C.c3.r3);
         sum++;
     }
 
