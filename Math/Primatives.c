@@ -100,6 +100,29 @@ void matrix_multiply_f4(matrix_F4x4* A, float4* x, float4* b)
     b->w = (A->c0.r3 * x->x) + (A->c1.r3 * x->y) + (A->c2.r3 * x->z) + (A->c3.r3 * x->w);
 }
 
+void matrix_multiply_f4x4(matrix_F4x4* A, matrix_F4x4* B, matrix_F4x4* C)
+{
+    C->c0.r0 = (A->c0.r0 * B->c0.r0) + (A->c1.r0 * B->c0.r1) + (A->c2.r0 * B->c0.r2) + (A->c3.r0 * B->c0.r3);
+    C->c0.r1 = (A->c0.r1 * B->c0.r0) + (A->c1.r1 * B->c0.r1) + (A->c2.r1 * B->c0.r2) + (A->c3.r1 * B->c0.r3);
+    C->c0.r2 = (A->c0.r2 * B->c0.r0) + (A->c1.r2 * B->c0.r1) + (A->c2.r2 * B->c0.r2) + (A->c3.r2 * B->c0.r3);
+    C->c0.r3 = (A->c0.r3 * B->c0.r0) + (A->c1.r3 * B->c0.r1) + (A->c2.r3 * B->c0.r2) + (A->c3.r3 * B->c0.r3);
+
+    C->c1.r0 = (A->c0.r0 * B->c1.r0) + (A->c1.r0 * B->c1.r1) + (A->c2.r0 * B->c1.r2) + (A->c3.r0 * B->c1.r3);
+    C->c1.r1 = (A->c0.r1 * B->c1.r0) + (A->c1.r1 * B->c1.r1) + (A->c2.r1 * B->c1.r2) + (A->c3.r1 * B->c1.r3);
+    C->c1.r2 = (A->c0.r2 * B->c1.r0) + (A->c1.r2 * B->c1.r1) + (A->c2.r2 * B->c1.r2) + (A->c3.r2 * B->c1.r3);
+    C->c1.r3 = (A->c0.r3 * B->c1.r0) + (A->c1.r3 * B->c1.r1) + (A->c2.r3 * B->c1.r2) + (A->c3.r3 * B->c1.r3);
+
+    C->c2.r0 = (A->c0.r0 * B->c2.r0) + (A->c1.r0 * B->c2.r1) + (A->c2.r0 * B->c2.r2) + (A->c3.r0 * B->c2.r3);
+    C->c2.r1 = (A->c0.r1 * B->c2.r0) + (A->c1.r1 * B->c2.r1) + (A->c2.r1 * B->c2.r2) + (A->c3.r1 * B->c2.r3);
+    C->c2.r2 = (A->c0.r2 * B->c2.r0) + (A->c1.r2 * B->c2.r1) + (A->c2.r2 * B->c2.r2) + (A->c3.r2 * B->c2.r3);
+    C->c2.r3 = (A->c0.r3 * B->c2.r0) + (A->c1.r3 * B->c2.r1) + (A->c2.r3 * B->c2.r2) + (A->c3.r3 * B->c2.r3);
+
+    C->c3.r0 = (A->c0.r0 * B->c3.r0) + (A->c1.r0 * B->c3.r1) + (A->c2.r0 * B->c3.r2) + (A->c3.r0 * B->c3.r3);
+    C->c3.r1 = (A->c0.r1 * B->c3.r0) + (A->c1.r1 * B->c3.r1) + (A->c2.r1 * B->c3.r2) + (A->c3.r1 * B->c3.r3);
+    C->c3.r2 = (A->c0.r2 * B->c3.r0) + (A->c1.r2 * B->c3.r1) + (A->c2.r2 * B->c3.r2) + (A->c3.r2 * B->c3.r3);
+    C->c3.r3 = (A->c0.r3 * B->c3.r0) + (A->c1.r3 * B->c3.r1) + (A->c2.r3 * B->c3.r2) + (A->c3.r3 * B->c3.r3);
+}
+
 // ------------------------- Double
 void add_d2(double2* A, double2* B, double2* C)
 {

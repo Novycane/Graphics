@@ -149,6 +149,7 @@ void multiply_f4(float4*, float4*, float4*);
 void divide_f4(float4*, float4*, float4*);
 
 void matrix_multiply_f4(matrix_F4x4* , float4*, float4*);
+void matrix_multiply_f4x4(matrix_F4x4* A, matrix_F4x4* B, matrix_F4x4* C);
 
 void dotF2(float2*, float2*, float*);
 void dotF3(float3*, float3*, float*);
