@@ -120,6 +120,14 @@ typedef struct
     float4 p3;
 } QuadF4 ;
 
+typedef struct 
+{
+    float a;
+    float b;
+    float c;
+    float d;
+} PlaneF ;
+
 // -------------------------------------------------- Functions
 
 void normalF3(TriangleF3*, float3*);
@@ -130,6 +138,6 @@ void normalD4(TriangleD4*, double4*);
 
 int LF3IntersectTF3(float3* origin, float3* vector, TriangleF3* T, float3* out);
 
-int planeFromTriF3(TriangleF3* T, QuadF4* plane);
+int planeFromTriF3(TriangleF3* T, PlaneF* plane);
 
 #endif

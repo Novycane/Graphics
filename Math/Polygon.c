@@ -112,10 +112,16 @@ int LF3IntersectTF3(float3* origin, float3* vector, TriangleF3* T, float3* out)
         return 0;
 }
 
-int planeFromTriF3(TriangleF3* T, QuadF4* plane)
+int planeFromTriF3(TriangleF3* T, PlaneF* plane)
 {
-    float3* N = 0;
-    normalF3(T, N);
+    float3 v1 = T->p0;
+    float3 v2 = T->p1;
+    float3 v3 = T->p2;
+
+    plane->a = v1.y*(v2.z-v3.z) + v2.y*(v3.z-v1.z) + v3.y*(v1.z-v2.z);
+    plane->b = v1.z*(v2.x-v3.x) + v2.z*(v3.x-v1.x) + v3.z*(v1.x-v2.x);
+    plane->c = v1.x*(v2.y-v3.y) + v2.x*(v3.y-v1.y) + v3.x*(v1.y-v2.y);
+    plane->d = -( v1.x*( v2.y*v3.z - v3.y*v2.z ) + v2.x*(v3.y*v1.z - v1.y*v3.z) + v3.x*(v1.y*v2.z - v2.y*v1.z) );
     
     return 1;
 }

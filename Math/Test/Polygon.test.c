@@ -10,7 +10,7 @@
 // --------------------------------------------------
 
 #include <stdio.h>
-
+#include <math.h>
 #include "../Polygon.h"
 
 // --------------------------------------------------
@@ -28,6 +28,8 @@ int TestTriangleD4Normal();
 
 int TestMollerTrumboreIntersection();
 
+int TestPlaneFromTri();
+
 // --------------------------------------------------
 // ------------------------- Main
 
@@ -40,6 +42,8 @@ int main(int argCount, char** args)
     TestTriangleD4Normal();
 
     TestMollerTrumboreIntersection();
+    
+    TestPlaneFromTri();
 }
 
 // -------------------------------------------------- Normals
@@ -273,5 +277,43 @@ int TestMollerTrumboreIntersection()
     L.p0 = (float3) {0.0, 0.0, 0.0};
     L.p1 = (float3) {0.0, 0.0, 0.0};
 
+    return sum;
+}
+
+int TestPlaneFromTri()
+{
+    int sum = 0;
+
+    TriangleF3 T;
+    PlaneF P;
+    T.p0 = (float3){0.0, 0.0, 0.0};
+    T.p1 = (float3){0.0, 1.0, 0.0};
+    T.p2 = (float3){1.0, 0.0, 0.0};
+
+    planeFromTriF3(&T, &P);
+
+    if(P.a != 0.0 || 
+       P.b != 0.0 ||
+       P.c != -1.0 ||
+       P.d != 0.0 )
+    {
+        printf("PlaneFromTriangleF error. Expected: {0,0,-1,0} Actual: {%f, %f, %f, %f}\n", P.a, P.b, P.c, P.d);
+        sum++;
+    }
+
+    T.p0 = (float3){6.7, 0.0, 0.0};
+    T.p1 = (float3){0.0, -2.0, 9.1};
+    T.p2 = (float3){-14.5, 4.3, 0.0};
+    
+    planeFromTriF3(&T, &P);
+
+    if(fabs(P.a - -39.13) > 0.009 || 
+       fabs(P.b - -192.92) > 0.009 ||
+       fabs(P.c - -71.21) > 0.009 ||
+       fabs(P.d - 262.171) > 0.009)
+    {
+        printf("PlaneFromTriangleF error. Expected: {-39.13, -192.92, -71.21, 262.171} Actual: {%f, %f, %f, %f}\n", P.a, P.b, P.c, P.d);
+        sum++;
+    }
     return sum;
 }
