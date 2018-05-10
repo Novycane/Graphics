@@ -30,6 +30,8 @@ int TestMollerTrumboreIntersection();
 
 int TestPlaneFromTri();
 
+int TestPlaneLineIntersect();
+
 // --------------------------------------------------
 // ------------------------- Main
 
@@ -44,6 +46,8 @@ int main(int argCount, char** args)
     TestMollerTrumboreIntersection();
     
     TestPlaneFromTri();
+
+    TestPlaneLineIntersect();
 }
 
 // -------------------------------------------------- Normals
@@ -286,6 +290,9 @@ int TestPlaneFromTri()
 
     TriangleF3 T;
     PlaneF P;
+
+    printf("Test Plane From Triangle\n");
+
     T.p0 = (float3){0.0, 0.0, 0.0};
     T.p1 = (float3){0.0, 1.0, 0.0};
     T.p2 = (float3){1.0, 0.0, 0.0};
@@ -315,5 +322,37 @@ int TestPlaneFromTri()
         printf("PlaneFromTriangleF error. Expected: {-39.13, -192.92, -71.21, 262.171} Actual: {%f, %f, %f, %f}\n", P.a, P.b, P.c, P.d);
         sum++;
     }
+    return sum;
+}
+
+int TestPlaneLineIntersect()
+{
+    int sum = 0;
+
+    float3 p0, p1, out;
+    TriangleF3 T;
+
+    printf("Test Plane Line Intersection algorithm\n");
+
+    T.p0 = (float3) { 0.0, 0.0, 0.0};
+    T.p1 = (float3) { 0.0, 0.0, 0.0};
+    T.p2 = (float3) { 0.0, 0.0, 0.0};
+
+    p0 = (float3) { 0.0, 0.0, 0.0};
+    p1 = (float3) { 0.0, 0.0, 0.0};
+    out = (float3) { 0.0, 0.0, 0.0};
+
+    LF3IntersectTF3(&p0, &p1, &T, &out);
+
+
+
+    if(fabs(out.x - 39.13) > 0.009 || 
+       fabs(out.y - 192.92) > 0.009 ||
+       fabs(out.z - 71.21) > 0.009)
+    {
+        printf("Line Intersect Triangle Expected: {-39.13, -192.92, -71.21, 262.171} Actual: {%f, %f, %f}\n", out.x, out.y, out.z);
+        sum++;
+    }    
+
     return sum;
 }

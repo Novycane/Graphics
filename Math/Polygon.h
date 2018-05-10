@@ -14,6 +14,7 @@
 
 #define NONOPTIMIZED
 
+#include <math.h>
 #include "Primatives.h"
 
 // -------------------------------------------------- Polygons

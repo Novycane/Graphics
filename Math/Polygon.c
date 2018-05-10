@@ -64,10 +64,30 @@ void normalD4(TriangleD4* T, double4* N)
 int LF3IntersectTF3(float3* p0, float3* p1, TriangleF3* T, float3* out)
 {
     PlaneF P;
+    float3 U, N;
+    float Si;
 
+    // Check N * L is not parallel
     planeFromTriF3(T, &P);
 
-    
+    // Normalize line U = P1 - P0
+    subtract_f3(p1, p0, &U);
+    Si = sqrt((U.x * U.x) + (U.y * U.y) + (U.z * U.z)); // Using Si temporarily
+    U.x /= Si;
+    U.y /= Si;
+    U.z /= Si;
+
+    // Get Plane Normal N
+    normalF3(T, &N);
+
+    // Si = -(a*xo + b*y0 + c*z0 + d) / (n * u)
+    dotF3(&N, &U, &Si);
+    Si = -(P.a * p0->x + P.b * p0->y + P.c * p0->z + P.d) / Si;
+
+    // out = P0 + Si * u
+    out->x = p0->x * Si;
+    out->y = p0->y * Si;
+    out->z = p0->z * Si;
 
     return 1;
 }
