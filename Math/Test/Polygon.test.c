@@ -270,7 +270,8 @@ int TestMollerTrumboreIntersection()
     int sum = 0;
 
     TriangleF3 T;
-    LineF3 L;
+    //LineF3 L;
+    float3 O;
 
     printf("Test MollerTrumbore algorithm\n");
 
@@ -278,8 +279,12 @@ int TestMollerTrumboreIntersection()
     T.p1 = (float3) {0.0, 0.0, 0.0};
     T.p2 = (float3) {0.0, 0.0, 0.0};
 
-    L.p0 = (float3) {0.0, 0.0, 0.0};
-    L.p1 = (float3) {0.0, 0.0, 0.0};
+    O = (float3) {0.0, 0.0, 0.0};
+
+    //L.p0 = (float3) {0.0, 0.0, 0.0};
+    //L.p1 = (float3) {0.0, 0.0, 0.0};
+
+    MTIntersectF3(&O, &O, &T, &O);
 
     return sum;
 }
@@ -293,7 +298,7 @@ int TestPlaneFromTri()
 
     printf("Test Plane From Triangle\n");
 
-    T.p0 = (float3){0.0, 0.0, 0.0};
+    T.p0 = (float3){-1.0, 0.0, 0.0};
     T.p1 = (float3){0.0, 1.0, 0.0};
     T.p2 = (float3){1.0, 0.0, 0.0};
 
@@ -301,10 +306,10 @@ int TestPlaneFromTri()
 
     if(P.a != 0.0 || 
        P.b != 0.0 ||
-       P.c != -1.0 ||
+       P.c != 2.0 ||
        P.d != 0.0 )
     {
-        printf("PlaneFromTriangleF error. Expected: {0,0,-1,0} Actual: {%f, %f, %f, %f}\n", P.a, P.b, P.c, P.d);
+        printf("PlaneFromTriangleF error. Expected: {0,0,2,0} Actual: {%f, %f, %f, %f}\n", P.a, P.b, P.c, P.d);
         sum++;
     }
 
@@ -314,12 +319,12 @@ int TestPlaneFromTri()
     
     planeFromTriF3(&T, &P);
 
-    if(fabs(P.a - -39.13) > 0.009 || 
-       fabs(P.b - -192.92) > 0.009 ||
-       fabs(P.c - -71.21) > 0.009 ||
-       fabs(P.d - 262.171) > 0.009)
+    if(fabs(P.a - 39.13) > 0.009 || 
+       fabs(P.b - 192.92) > 0.009 ||
+       fabs(P.c - 71.21) > 0.009 ||
+       fabs(P.d - -262.171) > 0.009)
     {
-        printf("PlaneFromTriangleF error. Expected: {-39.13, -192.92, -71.21, 262.171} Actual: {%f, %f, %f, %f}\n", P.a, P.b, P.c, P.d);
+        printf("PlaneFromTriangleF error. Expected: {39.13, 192.92, 71.21, -262.171} Actual: {%f, %f, %f, %f}\n", P.a, P.b, P.c, P.d);
         sum++;
     }
     return sum;
@@ -343,8 +348,6 @@ int TestPlaneLineIntersect()
     out = (float3) { 0.0, 0.0, 0.0};
 
     LF3IntersectTF3(&p0, &p1, &T, &out);
-
-    printf("X Y Z: {%f, %f, %f}\n", out.x, out.y, out.z);
 
     if(fabs(out.x) > 0.009 || 
        fabs(out.y) > 0.009 ||
