@@ -334,23 +334,23 @@ int TestPlaneLineIntersect()
 
     printf("Test Plane Line Intersection algorithm\n");
 
-    T.p0 = (float3) { 0.0, 0.0, 0.0};
-    T.p1 = (float3) { 0.0, 0.0, 0.0};
-    T.p2 = (float3) { 0.0, 0.0, 0.0};
+    T.p0 = (float3) { -1.0, 0.0, 0.0};
+    T.p1 = (float3) { 0.0, 1.0, 0.0};
+    T.p2 = (float3) { 1.0, 0.0, 0.0};
 
-    p0 = (float3) { 0.0, 0.0, 0.0};
-    p1 = (float3) { 0.0, 0.0, 0.0};
+    p0 = (float3) { 1.0, 1.0, 1.0};
+    p1 = (float3) { -1.0, -1.0, -1.0};
     out = (float3) { 0.0, 0.0, 0.0};
 
     LF3IntersectTF3(&p0, &p1, &T, &out);
 
+    printf("X Y Z: {%f, %f, %f}\n", out.x, out.y, out.z);
 
-
-    if(fabs(out.x - 39.13) > 0.009 || 
-       fabs(out.y - 192.92) > 0.009 ||
-       fabs(out.z - 71.21) > 0.009)
+    if(fabs(out.x) > 0.009 || 
+       fabs(out.y) > 0.009 ||
+       fabs(out.z) > 0.009)
     {
-        printf("Line Intersect Triangle Expected: {-39.13, -192.92, -71.21, 262.171} Actual: {%f, %f, %f}\n", out.x, out.y, out.z);
+        printf("Line Intersect Triangle Expected: {0.0, 0.0, 0.0} Actual: {%f, %f, %f}\n", out.x, out.y, out.z);
         sum++;
     }    
 

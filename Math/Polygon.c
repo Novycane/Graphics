@@ -70,24 +70,35 @@ int LF3IntersectTF3(float3* p0, float3* p1, TriangleF3* T, float3* out)
     // Check N * L is not parallel
     planeFromTriF3(T, &P);
 
+    printf("a b c d: {%f, %f, %f %f}\n", P.a, P.b, P.c, P.d);
+
     // Normalize line U = P1 - P0
     subtract_f3(p1, p0, &U);
     Si = sqrt((U.x * U.x) + (U.y * U.y) + (U.z * U.z)); // Using Si temporarily
     U.x /= Si;
     U.y /= Si;
     U.z /= Si;
+    printf("U: X Y Z: {%f, %f, %f}\n", U.x, U.y, U.z);
 
     // Get Plane Normal N
     normalF3(T, &N);
+    Si = sqrt((N.x * N.x) + (N.y * N.y) + (N.z * N.z)); // Using Si temporarily
+    N.x /= Si;
+    N.y /= Si;
+    N.z /= Si;
+
+    printf("N: X Y Z: {%f, %f, %f}\n", N.x, N.y, N.z);
 
     // Si = -(a*xo + b*y0 + c*z0 + d) / (n * u)
     dotF3(&N, &U, &Si);
+    printf("D: %f\n", Si);
     Si = -(P.a * p0->x + P.b * p0->y + P.c * p0->z + P.d) / Si;
+    printf("S: %f\n", Si);
 
     // out = P0 + Si * u
-    out->x = p0->x * Si;
-    out->y = p0->y * Si;
-    out->z = p0->z * Si;
+    out->x = p0->x + U.x * Si;
+    out->y = p0->y + U.y * Si;
+    out->z = p0->z + U.z * Si;
 
     return 1;
 }
