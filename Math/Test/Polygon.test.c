@@ -357,5 +357,18 @@ int TestPlaneLineIntersect()
         sum++;
     }    
 
+    p0 = (float3) { 1.5, 1.0, 1.0};
+    p1 = (float3) { 1.5, 1.0, -1.0};
+    
+    LF3IntersectTF3(&p0, &p1, &T, &out);
+    
+    if(fabs(out.x) > 1.509 || 
+       fabs(out.y) > 1.009 ||
+       fabs(out.z) > 0.009)
+    {
+        printf("Line Intersect Triangle Expected: {1.5, 1.0, 0.0} Actual: {%f, %f, %f}\n", out.x, out.y, out.z);
+        sum++;
+    } 
+
     return sum;
 }
