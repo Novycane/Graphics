@@ -10,7 +10,7 @@
 // --------------------------------------------------
 
 #include <stdio.h>
-
+#include <math.h>
 #include "../Polygon.h"
 
 // --------------------------------------------------
@@ -28,6 +28,10 @@ int TestTriangleD4Normal();
 
 int TestMollerTrumboreIntersection();
 
+int TestPlaneFromTri();
+
+int TestPlaneLineIntersect();
+
 // --------------------------------------------------
 // ------------------------- Main
 
@@ -40,6 +44,10 @@ int main(int argCount, char** args)
     TestTriangleD4Normal();
 
     TestMollerTrumboreIntersection();
+    
+    TestPlaneFromTri();
+
+    TestPlaneLineIntersect();
 }
 
 // -------------------------------------------------- Normals
@@ -262,7 +270,8 @@ int TestMollerTrumboreIntersection()
     int sum = 0;
 
     TriangleF3 T;
-    LineF3 L;
+    //LineF3 L;
+    float3 O;
 
     printf("Test MollerTrumbore algorithm\n");
 
@@ -270,8 +279,96 @@ int TestMollerTrumboreIntersection()
     T.p1 = (float3) {0.0, 0.0, 0.0};
     T.p2 = (float3) {0.0, 0.0, 0.0};
 
-    L.p0 = (float3) {0.0, 0.0, 0.0};
-    L.p1 = (float3) {0.0, 0.0, 0.0};
+    O = (float3) {0.0, 0.0, 0.0};
+
+    //L.p0 = (float3) {0.0, 0.0, 0.0};
+    //L.p1 = (float3) {0.0, 0.0, 0.0};
+
+    MTIntersectF3(&O, &O, &T, &O);
+
+    return sum;
+}
+
+int TestPlaneFromTri()
+{
+    int sum = 0;
+
+    TriangleF3 T;
+    PlaneF P;
+
+    printf("Test Plane From Triangle\n");
+
+    T.p0 = (float3){-1.0, 0.0, 0.0};
+    T.p1 = (float3){0.0, 1.0, 0.0};
+    T.p2 = (float3){1.0, 0.0, 0.0};
+
+    planeFromTriF3(&T, &P);
+
+    if(P.a != 0.0 || 
+       P.b != 0.0 ||
+       P.c != 2.0 ||
+       P.d != 0.0 )
+    {
+        printf("PlaneFromTriangleF error. Expected: {0,0,2,0} Actual: {%f, %f, %f, %f}\n", P.a, P.b, P.c, P.d);
+        sum++;
+    }
+
+    T.p0 = (float3){6.7, 0.0, 0.0};
+    T.p1 = (float3){0.0, -2.0, 9.1};
+    T.p2 = (float3){-14.5, 4.3, 0.0};
+    
+    planeFromTriF3(&T, &P);
+
+    if(fabs(P.a - 39.13) > 0.009 || 
+       fabs(P.b - 192.92) > 0.009 ||
+       fabs(P.c - 71.21) > 0.009 ||
+       fabs(P.d - -262.171) > 0.009)
+    {
+        printf("PlaneFromTriangleF error. Expected: {39.13, 192.92, 71.21, -262.171} Actual: {%f, %f, %f, %f}\n", P.a, P.b, P.c, P.d);
+        sum++;
+    }
+    return sum;
+}
+
+int TestPlaneLineIntersect()
+{
+    int sum = 0;
+
+    float3 p0, p1, out;
+    TriangleF3 T;
+
+    printf("Test Plane Line Intersection algorithm\n");
+
+    T.p0 = (float3) { -1.0, 0.0, 0.0};
+    T.p1 = (float3) { 0.0, 1.0, 0.0};
+    T.p2 = (float3) { 1.0, 0.0, 0.0};
+
+    p0 = (float3) { 1.0, 1.0, 1.0};
+    p1 = (float3) { -1.0, -1.0, -1.0};
+    out = (float3) { 0.0, 0.0, 0.0};
+
+    LF3IntersectTF3(&p0, &p1, &T, &out);
+
+    if(fabs(out.x) > 0.009 || 
+       fabs(out.y) > 0.009 ||
+       fabs(out.z) > 0.009)
+    {
+        printf("Line Intersect Triangle Expected: {0.0, 0.0, 0.0} Actual: {%f, %f, %f}\n", out.x, out.y, out.z);
+        sum++;
+    }    
+
+    p0 = (float3) { 1.5, 1.0, 1.0};
+    p1 = (float3) { 1.5, 1.0, -1.0};
+    
+    LF3IntersectTF3(&p0, &p1, &T, &out);
+    
+    if(fabs(out.x) > 1.509 || 
+       fabs(out.y) > 1.009 ||
+       fabs(out.z) > 0.009)
+    {
+        printf("Line Intersect Triangle Expected: {1.5, 1.0, 0.0} Actual: {%f, %f, %f}\n", out.x, out.y, out.z);
+        sum++;
+    } 
 
     return sum;
 }

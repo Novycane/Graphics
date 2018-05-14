@@ -61,8 +61,40 @@ void normalD4(TriangleD4* T, double4* N)
 
 // -------------------------------------------------- Intersections
 
+int LF3IntersectTF3(float3* p0, float3* p1, TriangleF3* T, float3* out)
+{
+    float3 U, N, V;
+    float Si, Sn, Sd;
+
+    // Check N * L is not parallel
+
+    // Normalize line U = P1 - P0
+    subtract_f3(p1, p0, &U);
+
+    // Get Plane Normal N
+    normalF3(T, &N);
+    Si = sqrt((N.x * N.x) + (N.y * N.y) + (N.z * N.z)); // Using Si temporarily
+    N.x /= Si;
+    N.y /= Si;
+    N.z /= Si;
+
+    // Si = -(a*xo + b*y0 + c*z0 + d) / (n * u)
+    subtract_f3(&T->p0, p0,  &V);
+    dotF3(&N, &U, &Sd);
+    dotF3(&N, &V, &Sn);
+    
+    Si = Sn / Sd;
+    
+    // out = P0 + Si * u
+    out->x = p0->x + U.x * Si;
+    out->y = p0->y + U.y * Si;
+    out->z = p0->z + U.z * Si;
+
+    return 1;
+}
+
 // ----- Möller–Trumbore Algorithm
-int LF3IntersectTF3(float3* origin, float3* vector, TriangleF3* T, float3* out)
+int MTIntersectF3(float3* origin, float3* vector, TriangleF3* T, float3* out)
 {
     const float e = 1e-5;
 
@@ -112,10 +144,16 @@ int LF3IntersectTF3(float3* origin, float3* vector, TriangleF3* T, float3* out)
         return 0;
 }
 
-int planeFromTriF3(TriangleF3* T, QuadF4* plane)
+int planeFromTriF3(TriangleF3* T, PlaneF* plane)
 {
-    float3* N = 0;
-    normalF3(T, N);
+    float3 v3 = T->p0;
+    float3 v2 = T->p1;
+    float3 v1 = T->p2;
+
+    plane->a = v1.y*(v2.z-v3.z) + v2.y*(v3.z-v1.z) + v3.y*(v1.z-v2.z);
+    plane->b = v1.z*(v2.x-v3.x) + v2.z*(v3.x-v1.x) + v3.z*(v1.x-v2.x);
+    plane->c = v1.x*(v2.y-v3.y) + v2.x*(v3.y-v1.y) + v3.x*(v1.y-v2.y);
+    plane->d = -( v1.x*( v2.y*v3.z - v3.y*v2.z ) + v2.x*(v3.y*v1.z - v1.y*v3.z) + v3.x*(v1.y*v2.z - v2.y*v1.z) );
     
     return 1;
 }

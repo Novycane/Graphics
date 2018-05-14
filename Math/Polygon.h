@@ -14,6 +14,7 @@
 
 #define NONOPTIMIZED
 
+#include <math.h>
 #include "Primatives.h"
 
 // -------------------------------------------------- Polygons
@@ -120,6 +121,14 @@ typedef struct
     float4 p3;
 } QuadF4 ;
 
+typedef struct 
+{
+    float a;
+    float b;
+    float c;
+    float d;
+} PlaneF ;
+
 // -------------------------------------------------- Functions
 
 void normalF3(TriangleF3*, float3*);
@@ -128,8 +137,10 @@ void normalF4(TriangleF4*, float4*);
 void normalD3(TriangleD3*, double3*);
 void normalD4(TriangleD4*, double4*);
 
-int LF3IntersectTF3(float3* origin, float3* vector, TriangleF3* T, float3* out);
+int LF3IntersectTF3(float3* p0, float3* p1, TriangleF3* T, float3* out);
 
-int planeFromTriF3(TriangleF3* T, QuadF4* plane);
+int MTIntersectF3(float3* origin, float3* vector, TriangleF3* T, float3* out);
+
+int planeFromTriF3(TriangleF3* T, PlaneF* plane);
 
 #endif
