@@ -17,3 +17,7 @@ $ cat .gitignore
 !/Utils
 !/Utils/Test
 /Utils/Temp
+
+!/DataStructs
+!/DataStructs/Test
+/DataStructs/Temp
