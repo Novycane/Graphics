@@ -12,6 +12,7 @@
 #ifndef BSP_H
 #define BSP_H
 
+#include <stdlib.h>
 #include "../Math/Polygon.h"
 
 // -------------------------------------------------- Structs
@@ -28,13 +29,13 @@ struct BSPNode
     BSPNode* parent;
     BSPNode* front;
     BSPNode* back;
-    TriangleF3* faces;
+    TriangleF4* faces;
     unsigned int numberOfFaces;
     BSPFlags flags;
 };
 
 // -------------------------------------------------- BSP
 
-int createBSPTreeFromVertexBuffer(float4* vertexBuffer, unsigned int count);
+int createBSPTreeFromVertexBuffer(TriangleF4* vertexBuffer, unsigned int count);
 
 #endif
