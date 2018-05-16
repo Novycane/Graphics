@@ -16,7 +16,8 @@
 BSPNode* createNode(BSPNode* parent);
 int freeBSPTree(BSPNode* root);
 
-int isInFront(float3* normal, TriangleF4* face);
+int classifyPolygon(float3* normal, TriangleF4* face);
+int splitPolygon();
 int isConvexSet(TriangleF4* vertexBuffer, unsigned int count);
 
 // -------------------------------------------------- BSP
@@ -53,12 +54,14 @@ int freeBSPTree(BSPNode* root)
         freeBSPTree(root->back);
     free(root->back);
 
+    free(root->faces);
+
     return 1;
 }
 
 // -------------------------------------------------- Helper Functions
 
-int isInFront(float3* normal, TriangleF4* face)
+int classifyPolygon(float3* normal, TriangleF4* face)
 {
     float dot;
     float4 U, V;
@@ -66,14 +69,31 @@ int isInFront(float3* normal, TriangleF4* face)
     subtract_f4(&face->p1, &face->p2, &U);
     dotF4(&U, &V, &dot);
 
-    // Is poly inline?
-    // in front?
-    // behind?
-    // intersecting
+    // Calculate split normal
+    // Pick a point on the split
+    // for each point on the target plane
+    //      Calculate a vector from the target point to a point on the split
+    //      Calculate the dot product
+    //      if +
+    //          in front
+    //      if -
+    //          behind
+    //      if ~0
+    //          in plane
+    //      endif
+    //  end foreach
+    // 
+    
+}
+
+int splitPolygon()
+{
+    
 }
 
 int isConvexSet(TriangleF4* polySet, unsigned int count)
 {
+
 
     return 1;
 }
