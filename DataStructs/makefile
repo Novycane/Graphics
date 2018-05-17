@@ -32,6 +32,8 @@ clean:
 	-@ECHO "Cleaning Files"
 	rm $(TEMP)DataStructs.o
 	rm $(TEMP)BSP.o
+	rm $(TEMP)BSP.test.o
+	rm $(TEMP)BSP$(EXT)
 
 Test: DataStructs.o
 	-@ECHO "Testing DataStructs.o"
