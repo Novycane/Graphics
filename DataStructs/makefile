@@ -13,17 +13,18 @@ TFLAGS		= -g -Wall -std=c++14
 LFLAGS		= -g -lc++
 
 # ----- Directories
-TEMP		= temp/
+TEMP		= ./Temp/
 BIN			= ../bin/
-TEST		= Test/
+TEST		= ./Test/
 COMMON		= ../
+MATH		= ../Math/
 
 # ----- Targets
 all:	DataStructs.o
 
-DataStructs.o: BSP.o
-	-@ECHO -n "Creating DataStructs.o"
-	-@ld -r $(TEMP)BSP.o -o $(TEMP)DataStructs.o
+DataStructs.o: BSP.o $(MATH)Temp/Primatives.o
+	-@ECHO -n "Creating DataStructs.o "
+	-@ld -r $(TEMP)BSP.o $(MATH)Temp/Primatives.o -o $(TEMP)DataStructs.o
 	-@ECHO "...ok"
 
 .PHONY:
@@ -34,10 +35,11 @@ clean:
 
 Test: DataStructs.o
 	-@ECHO "Testing DataStructs.o"
-	-@$(CC) $(TEMP)DataStructs.o $(TEST)BSP.test.c -o $(TEMP)BSP$(EXT)
+	-@$(CC) $(CFLAGS) $(TEST)BSP.test.c -o $(TEMP)BSP.test.o
+	-@$(CC) $(TEMP)DataStructs.o $(TEMP)BSP.test.o -o $(TEMP)BSP$(EXT)
 	-@$(TEMP)BSP$(EXT)
 
-BSP.o: BSP.c BSP.h
+BSP.o: BSP.c BSP.h 
 	-@ECHO -n "Building BSP.o"
 	-@$(CC) $(CFLAGS) BSP.c -o $(TEMP)BSP.o
 	-@ECHO "...ok"

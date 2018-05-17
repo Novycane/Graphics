@@ -74,7 +74,6 @@ void rotateD(double angleX, double angleY, double angleZ, matrix_D4x4* out)
     out->c3 = (column_double4) { 0.0, 0.0, 0.0, 1.0 };
 }
 
-
 void perspectiveF(float aspect, float field, float far, float near, matrix_F4x4* out)
 {
     float fn = far - near;

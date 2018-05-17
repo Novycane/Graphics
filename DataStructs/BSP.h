@@ -14,6 +14,7 @@
 
 #include <stdlib.h>
 #include "../Math/Polygon.h"
+#include "../Math/Primatives.h"
 
 // -------------------------------------------------- Structs
 typedef enum 

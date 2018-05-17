@@ -209,17 +209,17 @@ void matrix_multiply_d4(matrix_D4x4* A, double4* x, double4* b)
 
 // -------------------------------------------------- Vector Products
 
-void dotF2(float2* A,float2* B, float* c)
+void dotF2(float2* A, float2* B, float* c)
 {
     *c = A->x * B->x + A->y * B->y;
 }
 
-void dotF3(float3* A,float3* B, float* c)
+void dotF3(float3* A, float3* B, float* c)
 {
     *c = A->x * B->x + A->y * B->y + A->z * B->z;
 }
 
-void dotF4(float4* A,float4* B, float* c)
+void dotF4(float4* A, float4* B, float* c)
 {
     *c = A->x * B->x + A->y * B->y + A->z * B->z;
 }

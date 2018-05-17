@@ -83,12 +83,12 @@ int classifyPolygon(float3* normal, TriangleF4* face)
     //      endif
     //  end foreach
     // 
-    
+    return 1;
 }
 
 int splitPolygon()
 {
-    
+    return 1;   
 }
 
 int isConvexSet(TriangleF4* polySet, unsigned int count)

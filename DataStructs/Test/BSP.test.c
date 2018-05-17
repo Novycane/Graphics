@@ -10,8 +10,8 @@
 // --------------------------------------------------
 
 #include <stdio.h>
-#include "../BSP.h"
 
+#include "../BSP.h"
 
 // --------------------------------------------------
 // ------------------------- Headers
@@ -23,6 +23,6 @@ int TestBSP();
 
 int main(int argCount, char** args)
 {
-
+    printf("Hello World!\n");
     return 1;
 }
