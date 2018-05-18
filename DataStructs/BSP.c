@@ -11,12 +11,14 @@
 
 #include "BSP.h"
 
+#include <stdio.h>
+
 // -------------------------------------------------- Declarations
 
 BSPNode* createNode(BSPNode* parent);
 int freeBSPTree(BSPNode* root);
 
-int classifyPolygon(float3* normal, TriangleF4* face);
+int classifyPolygon(TriangleF4* split, TriangleF4* face);
 int splitPolygon();
 int isConvexSet(TriangleF4* vertexBuffer, unsigned int count);
 
@@ -61,16 +63,35 @@ int freeBSPTree(BSPNode* root)
 
 // -------------------------------------------------- Helper Functions
 
-int classifyPolygon(float3* normal, TriangleF4* face)
+int classifyPolygon(TriangleF4* split, TriangleF4* face)
 {
     float dot;
-    float4 U, V;
-    subtract_f4(&face->p0, &face->p2, &U);
-    subtract_f4(&face->p1, &face->p2, &U);
-    dotF4(&U, &V, &dot);
+    float4 W, norm;
+    float4* P;
 
     // Calculate split normal
+    normalF4(split, &norm);
+
     // Pick a point on the split
+    P = &face->p0;
+    for(int i=0; i<3; i++)
+    {
+        // Calculate a vector from the target point to a point on the split
+        //printf("x: %f, y: %f, z: %f w: %f---- ", P->x, P->y, P->z, P->w);
+        subtract_f4(P, &split->p0, &W);
+        //printf("x: %f, y: %f, z: %f  w: %f\n\n", W.x, W.y, W.z, W.w);
+        //      Calculate the dot product
+                dotF4(&W, &norm, &dot);
+                printf("Dot: %f \n",dot); 
+        //      if +
+        //          in front
+        //      if -
+        //          behind
+        //      if ~0
+        //          in plane
+        //      endif
+        P++;
+    }
     // for each point on the target plane
     //      Calculate a vector from the target point to a point on the split
     //      Calculate the dot product

@@ -16,7 +16,8 @@
 // --------------------------------------------------
 // ------------------------- Externals
 
-int classifyPolygon(float3* normal, TriangleF4* face);
+int classifyPolygon(TriangleF4* split, TriangleF4* face);
+void normalF4(TriangleF4*, float4*);
 
 // --------------------------------------------------
 // ------------------------- Headers
@@ -29,23 +30,32 @@ int TestBSP();
 
 int main(int argCount, char** args)
 {
-    
+    printf("-------------------------\n");
     TestClassifyPolygon();
-
+    
+    printf("-------------------------\n");
+    
     return 1;
 }
 
 int TestClassifyPolygon()
 {
     int sum = 0;
-    float3 norm = (float3) {0.0, 0.0, 1.0};
-    TriangleF4 face;
-
-    face.p0 = (float4) {1.0, 1.0, 1.0, 1.0};
+    TriangleF4 split;
+    TriangleF4 poly;
 
     printf("Testing Classify Polygon\n");
 
-    classifyPolygon(&norm, &face);
+    // ------------------------- Front
+    split.p0 = (float4) {1.0, 0.0, 0.0, 1.0};
+    split.p1 = (float4) {0.0, 0.0, 1.0, 1.0};
+    split.p2 = (float4) {0.0, 1.0, 0.0, 1.0};
+
+    poly.p0 = (float4) {1.5, 0.5, 0.5, 1.0};
+    poly.p1 = (float4) {0.5, 0.5, 1.5, 1.0};
+    poly.p2 = (float4) {0.5, 1.5, 0.5, 1.0};
+
+    classifyPolygon(&poly, &split);
 
     return sum;
 }
