@@ -15,6 +15,11 @@
 
 // -------------------------------------------------- Declarations
 
+#define INFRONT 1
+#define SPLIT 3
+#define INBACK 2
+#define INPLANE 4
+
 BSPNode* createNode(BSPNode* parent);
 int freeBSPTree(BSPNode* root);
 
@@ -65,46 +70,61 @@ int freeBSPTree(BSPNode* root)
 
 int classifyPolygon(TriangleF4* split, TriangleF4* face)
 {
-    float dot;
+    int flags = 0;
+    float dot, threshold = 0.0001;
     float4 W, norm;
     float4* P;
 
     // Calculate split normal
     normalF4(split, &norm);
-
+    
     // Pick a point on the split
     P = &face->p0;
     for(int i=0; i<3; i++)
     {
-        // Calculate a vector from the target point to a point on the split
-        //printf("x: %f, y: %f, z: %f w: %f---- ", P->x, P->y, P->z, P->w);
         subtract_f4(P, &split->p0, &W);
-        //printf("x: %f, y: %f, z: %f  w: %f\n\n", W.x, W.y, W.z, W.w);
-        //      Calculate the dot product
-                dotF4(&W, &norm, &dot);
-                printf("Dot: %f \n",dot); 
-        //      if +
-        //          in front
-        //      if -
-        //          behind
-        //      if ~0
-        //          in plane
-        //      endif
+        dotF4(&W, &norm, &dot);
+        
+        if(dot > threshold)
+        {
+            // Front
+            flags |= INFRONT;
+        }
+        else if(dot < -threshold)
+        {
+            // Back
+            flags |= INBACK;
+        }
+        else
+        {
+            // In Plane
+            flags |= INPLANE;
+        }
         P++;
     }
-    // for each point on the target plane
-    //      Calculate a vector from the target point to a point on the split
-    //      Calculate the dot product
-    //      if +
-    //          in front
-    //      if -
-    //          behind
-    //      if ~0
-    //          in plane
-    //      endif
-    //  end foreach
-    // 
-    return 1;
+
+    switch (flags)
+    {
+        case 1:
+            return INFRONT;
+            break;
+
+        case 2:
+            return INBACK;
+            break;
+        case 3: 
+            return SPLIT;
+            break;
+        case 4:
+            return INPLANE;
+            break;
+        default:
+            return flags & ~INPLANE;
+        
+    }
+
+
+    return 0;
 }
 
 int splitPolygon()

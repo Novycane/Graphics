@@ -46,16 +46,69 @@ int TestClassifyPolygon()
 
     printf("Testing Classify Polygon\n");
 
-    // ------------------------- Front
     split.p0 = (float4) {1.0, 0.0, 0.0, 1.0};
     split.p1 = (float4) {0.0, 0.0, 1.0, 1.0};
     split.p2 = (float4) {0.0, 1.0, 0.0, 1.0};
-
+    
+    // ------------------------- Front
     poly.p0 = (float4) {1.5, 0.5, 0.5, 1.0};
     poly.p1 = (float4) {0.5, 0.5, 1.5, 1.0};
     poly.p2 = (float4) {0.5, 1.5, 0.5, 1.0};
+    if(classifyPolygon(&split, &poly) != 1)
+    {
+        sum++;
+        printf("Error in classifyPoly: Triangle Should be infront of the plane");
+    }
 
-    classifyPolygon(&poly, &split);
+    // ------------------------- Back
+    poly.p0 = (float4) {0.5, -0.5, -0.5, 1.0};
+    poly.p1 = (float4) {-0.5, -0.5, 0.5, 1.0};
+    poly.p2 = (float4) {-0.5, 0.5, -0.5, 1.0};
+    if(classifyPolygon(&split, &poly) != 2)
+    {
+        sum++;
+        printf("Error in classifyPoly: Triangle Should be behind the plane");
+    }
+
+    // ------------------------- In plane
+    poly.p0 = (float4) {1.0,  0.0, 0.0, 1.0};
+    poly.p1 = (float4) {0.0, 1.0, 0.0, 1.0};
+    poly.p2 = (float4) {0.0, 0.0, 1.0, 1.0};
+    if(classifyPolygon(&split, &poly) != 4)
+    {
+        sum++;
+        printf("Error in classifyPoly: Triangle Should be in the plane\n");
+    }
+
+    // ------------------------- Divided
+    poly.p0 = (float4) {0.0,  0.0, 0.0, 1.0};
+    poly.p1 = (float4) {2.0, 2.0, 2.0, 1.0};
+    poly.p2 = (float4) {0.0, 1.0, 1.0, 1.0};
+    if(classifyPolygon(&split, &poly) != 3)
+    {
+        sum++;
+        printf("Error in classifyPoly: Triangle Should be divided by the plane\n");
+    }
+
+    // ------------------------- In and In Front
+    poly.p0 = (float4) {1.5, 0.5, 0.5, 1.0};
+    poly.p1 = (float4) {0.0, 0.0, 1.0, 1.0};
+    poly.p2 = (float4) {0.5, 1.5, 0.5, 1.0};
+    if(classifyPolygon(&split, &poly) != 1)
+    {
+        sum++;
+        printf("Error in classifyPoly: Triangle Should be divided by the plane\n");
+    }
+
+    // ------------------------- In and Behind
+    poly.p0 = (float4) {0.5, -0.5, -0.5, 1.0};
+    poly.p1 = (float4) {0.0, 0.0, 1.0, 1.0};
+    poly.p2 = (float4) {-0.5, 0.5, -0.5, 1.0};
+    if(classifyPolygon(&split, &poly) != 2)
+    {
+        sum++;
+        printf("Error in classifyPoly: Triangle Should be divided by the plane\n");
+    }
 
     return sum;
 }

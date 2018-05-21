@@ -24,7 +24,7 @@ all:	DataStructs.o
 
 DataStructs.o: BSP.o $(MATH)Temp/Primatives.o
 	-@ECHO -n "Creating DataStructs.o "
-	-@ld -r $(TEMP)BSP.o $(MATH)Temp/Primatives.o -o $(TEMP)DataStructs.o
+	-@ld -r $(TEMP)BSP.o $(MATH)Temp/Primatives.o $(MATH)Temp/Polygon.o -o $(TEMP)DataStructs.o
 	-@ECHO "...ok"
 
 .PHONY:
