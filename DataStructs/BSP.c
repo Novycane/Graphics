@@ -24,7 +24,7 @@ BSPNode* createNode(BSPNode* parent);
 int freeBSPTree(BSPNode* root);
 
 int classifyPolygon(TriangleF4* split, TriangleF4* face);
-int splitPolygon();
+int splitPolygon(TriangleF4* split, TriangleF4* face, TriangleF4* out1, TriangleF4* out2, TriangleF4* out3);
 int isConvexSet(TriangleF4* vertexBuffer, unsigned int count);
 
 // -------------------------------------------------- BSP
@@ -127,14 +127,28 @@ int classifyPolygon(TriangleF4* split, TriangleF4* face)
     return 0;
 }
 
-int splitPolygon()
+int splitPolygon(TriangleF4* split, TriangleF4* face, TriangleF4* out1, TriangleF4* out2, TriangleF4* out3)
 {
+
     return 1;   
 }
 
 int isConvexSet(TriangleF4* polySet, unsigned int count)
 {
+    float4 normBase, norm;
+    float sign;
 
+    normalF4(&polySet[0], &normBase);
+    printf("Norm: %f %f %f\n", normBase.x, normBase.y, normBase.z);
+    for(int i=1; i<count; i++)
+    {
+        normalF4(&polySet[i], &norm);
+        dotF4(&normBase, &norm, &sign);
+        printf("Norm: %f %f %f\n", norm.x, norm.y, norm.z);
+        printf("Dot: %f\n", sign);
+        if(sign < 0)
+            return 0;
+    }
 
     return 1;
 }
