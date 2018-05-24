@@ -22,9 +22,13 @@
 
 int TestTriangleF3Normal();
 int TestTriangleF4Normal();
+int TestTriangleF3Norm();
+int TestTriangleF4Norm();
 
 int TestTriangleD3Normal();
 int TestTriangleD4Normal();
+int TestTriangleD3Norm();
+int TestTriangleD4Norm();
 
 int TestMollerTrumboreIntersection();
 
@@ -39,9 +43,14 @@ int main(int argCount, char** args)
 {
     TestTriangleF3Normal();
     TestTriangleF4Normal();
+    TestTriangleF3Norm();
+    TestTriangleF4Norm();
+
 
     TestTriangleD3Normal();
     TestTriangleD4Normal();
+    TestTriangleD3Norm();
+    TestTriangleD4Norm();
 
     TestMollerTrumboreIntersection();
     
@@ -93,6 +102,58 @@ int TestTriangleF3Normal()
     T.p1 = (float3){ 0.0, 0.0, 1.0 };
     T.p2 = (float3){ 0.0, 1.0, 0.0 };
     normalF3(&T, &N);
+    if(N.x != 1.0 || 
+       N.y != 0.0 ||
+       N.z != 0.0 )
+    {
+        printf("TriangleF3 Norm error. Expected: {1,0,0} Actual: {%f, %f, %f}\n", N.x, N.y, N.z);
+        sum++;
+    }
+
+    return sum;
+}
+
+int TestTriangleF3Norm()
+{
+    TriangleF3 T;
+    float3 N;
+    int sum = 0;
+
+    printf("Testing Trianlge Norm F3\n");
+
+    T.p0 = (float3){ 0.0, 0.0, 0.0 };
+    T.p1 = (float3){ 0.0, 2.0, 0.0 };
+    T.p2 = (float3){ 2.0, 0.0, 0.0 };
+
+    N.x = -1.0;
+    N.y = -1.0;
+    N.z = -1.0;
+
+    normF3(&T, &N);
+    if(N.x != 0.0 || 
+       N.y != 0.0 ||
+       N.z != 1.0 )
+    {
+        printf("TriangleF3 Norm error. Expected: {0,0,1} Actual: {%f, %f, %f}\n", N.x, N.y, N.z);
+        sum++;
+    }
+
+    T.p0 = (float3){ 0.0, 0.0, 0.0 };
+    T.p1 = (float3){ 2.0, 0.0, 0.0 };
+    T.p2 = (float3){ 0.0, 0.0, 2.0 };
+    normF3(&T, &N);
+    if(N.x != 0.0 || 
+       N.y != 1.0 ||
+       N.z != 0.0 )
+    {
+        printf("TriangleF3 Norm error. Expected: {0,1,0} Actual: {%f, %f, %f}\n", N.x, N.y, N.z);
+        sum++;
+    }
+
+    T.p0 = (float3){ 0.0, 0.0, 0.0 };
+    T.p1 = (float3){ 0.0, 0.0, 2.0 };
+    T.p2 = (float3){ 0.0, 2.0, 0.0 };
+    normF3(&T, &N);
     if(N.x != 1.0 || 
        N.y != 0.0 ||
        N.z != 0.0 )
@@ -158,6 +219,60 @@ int TestTriangleF4Normal()
     return sum;
 }
 
+int TestTriangleF4Norm()
+{
+    TriangleF4 T;
+    float4 N;
+    int sum = 0;
+
+    printf("Testing Trianlge Norm F4\n");
+
+    T.p0 = (float4){ 0.0, 0.0, 0.0, 1.0 };
+    T.p1 = (float4){ 0.0, 2.0, 0.0, 1.0 };
+    T.p2 = (float4){ 2.0, 0.0, 0.0, 1.0 };
+
+    N.x = -1.0;
+    N.y = -1.0;
+    N.z = -1.0;
+    N.w = 1.0;
+
+    normF4(&T, &N);
+    if(N.x != 0.0 || 
+       N.y != 0.0 ||
+       N.z != 1.0 ||
+       N.w != 1.0)
+    {
+        printf("TriangleF4 Norm error. Expected: {0,0,1,1} Actual: {%f, %f, %f, %f}\n", N.x, N.y, N.z, N.w);
+        sum++;
+    }
+
+    T.p0 = (float4){ 0.0, 0.0, 0.0, 1.0 };
+    T.p1 = (float4){ 2.0, 0.0, 0.0, 1.0 };
+    T.p2 = (float4){ 0.0, 0.0, 2.0, 1.0 };
+    normF4(&T, &N);
+    if(N.x != 0.0 || 
+       N.y != 1.0 ||
+       N.z != 0.0 )
+    {
+        printf("TriangleF4 Norm error. Expected: {0,1,0} Actual: {%f, %f, %f}\n", N.x, N.y, N.z);
+        sum++;
+    }
+
+    T.p0 = (float4){ 0.0, 0.0, 0.0, 1.0 };
+    T.p1 = (float4){ 0.0, 0.0, 2.0, 1.0 };
+    T.p2 = (float4){ 0.0, 2.0, 0.0, 1.0 };
+    normF4(&T, &N);
+    if(N.x != 1.0 || 
+       N.y != 0.0 ||
+       N.z != 0.0 )
+    {
+        printf("TriangleF4 Norm error. Expected: {1,0,0} Actual: {%f, %f, %f}\n", N.x, N.y, N.z);
+        sum++;
+    }
+
+    return sum;
+}
+
 int TestTriangleD3Normal()
 {
     TriangleD3 T;
@@ -199,6 +314,58 @@ int TestTriangleD3Normal()
     T.p1 = (double3){ 0.0, 0.0, 1.0 };
     T.p2 = (double3){ 0.0, 1.0, 0.0 };
     normalD3(&T, &N);
+    if(N.x != 1.0 || 
+       N.y != 0.0 ||
+       N.z != 0.0 )
+    {
+        printf("TriangleD3 Norm error. Expected: {1,0,0} Actual: {%f, %f, %f}\n", N.x, N.y, N.z);
+        sum++;
+    }
+
+    return sum;
+}
+
+int TestTriangleD3Norm()
+{
+    TriangleD3 T;
+    double3 N;
+    int sum = 0;
+
+    printf("Testing Trianlge Norm D3\n");
+
+    T.p0 = (double3){ 0.0, 0.0, 0.0 };
+    T.p1 = (double3){ 0.0, 2.0, 0.0 };
+    T.p2 = (double3){ 2.0, 0.0, 0.0 };
+
+    N.x = -1.0;
+    N.y = -1.0;
+    N.z = -1.0;
+
+    normD3(&T, &N);
+    if(N.x != 0.0 || 
+       N.y != 0.0 ||
+       N.z != 1.0 )
+    {
+        printf("TriangleD3 Norm error. Expected: {0,0,1} Actual: {%f, %f, %f}\n", N.x, N.y, N.z);
+        sum++;
+    }
+
+    T.p0 = (double3){ 0.0, 0.0, 0.0 };
+    T.p1 = (double3){ 2.0, 0.0, 0.0 };
+    T.p2 = (double3){ 0.0, 0.0, 2.0 };
+    normD3(&T, &N);
+    if(N.x != 0.0 || 
+       N.y != 1.0 ||
+       N.z != 0.0 )
+    {
+        printf("TriangleD3 Norm error. Expected: {0,1,0} Actual: {%f, %f, %f}\n", N.x, N.y, N.z);
+        sum++;
+    }
+
+    T.p0 = (double3){ 0.0, 0.0, 0.0 };
+    T.p1 = (double3){ 0.0, 0.0, 2.0 };
+    T.p2 = (double3){ 0.0, 2.0, 0.0 };
+    normD3(&T, &N);
     if(N.x != 1.0 || 
        N.y != 0.0 ||
        N.z != 0.0 )
@@ -253,6 +420,59 @@ int TestTriangleD4Normal()
     T.p1 = (double4){ 0.0, 0.0, 1.0, 1.0 };
     T.p2 = (double4){ 0.0, 1.0, 0.0, 1.0 };
     normalD4(&T, &N);
+    if(N.x != 1.0 || 
+       N.y != 0.0 ||
+       N.z != 0.0 )
+    {
+        printf("TriangleD4 Norm error. Expected: {1,0,0} Actual: {%f, %f, %f}\n", N.x, N.y, N.z);
+        sum++;
+    }
+    return sum;
+}
+
+int TestTriangleD4Norm()
+{
+    TriangleD4 T;
+    double4 N;
+    int sum = 0;
+
+    printf("Testing Trianlge Norm D4\n");
+
+    T.p0 = (double4){ 0.0, 0.0, 0.0, 1.0 };
+    T.p1 = (double4){ 0.0, 2.0, 0.0, 1.0 };
+    T.p2 = (double4){ 2.0, 0.0, 0.0, 1.0 };
+
+    N.x = -1.0;
+    N.y = -1.0;
+    N.z = -1.0;
+    N.w = 1.0;
+
+    normD4(&T, &N);
+    if(N.x != 0.0 || 
+       N.y != 0.0 ||
+       N.z != 1.0 ||
+       N.w != 1.0)
+    {
+        printf("TriangleD4 Norm error. Expected: {0,0,1,1} Actual: {%f, %f, %f, %f}\n", N.x, N.y, N.z, N.w);
+        sum++;
+    }
+
+    T.p0 = (double4){ 0.0, 0.0, 0.0, 1.0 };
+    T.p1 = (double4){ 2.0, 0.0, 0.0, 1.0 };
+    T.p2 = (double4){ 0.0, 0.0, 2.0, 1.0 };
+    normD4(&T, &N);
+    if(N.x != 0.0 || 
+       N.y != 1.0 ||
+       N.z != 0.0 )
+    {
+        printf("TriangleD4 Norm error. Expected: {0,1,0} Actual: {%f, %f, %f}\n", N.x, N.y, N.z);
+        sum++;
+    }
+
+    T.p0 = (double4){ 0.0, 0.0, 0.0, 1.0 };
+    T.p1 = (double4){ 0.0, 0.0, 2.0, 1.0 };
+    T.p2 = (double4){ 0.0, 2.0, 0.0, 1.0 };
+    normD4(&T, &N);
     if(N.x != 1.0 || 
        N.y != 0.0 ||
        N.z != 0.0 )

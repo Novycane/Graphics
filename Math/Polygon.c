@@ -37,6 +37,40 @@ void normalF4(TriangleF4* T, float4* N)
     N->z = (U.x * V.y) - (U.y * V.x);
 }
 
+void normF3(TriangleF3* T, float3* N)
+{
+    float3 U, V;
+    subtract_f3(&(T->p2), &(T->p0), &U);
+    subtract_f3(&(T->p1), &(T->p0), &V);
+
+    N->x = (U.y * V.z) - (U.z * V.y);
+    N->y = (U.z * V.x) - (U.x * V.z);
+    N->z = (U.x * V.y) - (U.y * V.x);
+ 
+    float norm = sqrtf(N->x * N->x + N->y * N->y + N->z * N->z);
+ 
+    N->x /= norm;
+    N->y /= norm;
+    N->z /= norm;
+}
+
+void normF4(TriangleF4* T, float4* N)
+{
+    float4 U, V;
+    subtract_f4(&(T->p2), &(T->p0), &U);
+    subtract_f4(&(T->p1), &(T->p0), &V);
+
+    N->x = (U.y * V.z) - (U.z * V.y);
+    N->y = (U.z * V.x) - (U.x * V.z);
+    N->z = (U.x * V.y) - (U.y * V.x);
+    
+    float norm = sqrtf(N->x * N->x + N->y * N->y + N->z * N->z);
+ 
+    N->x /= norm;
+    N->y /= norm;
+    N->z /= norm;
+}
+
 void normalD3(TriangleD3* T, double3* N)
 {
     double3 U, V;
@@ -57,6 +91,40 @@ void normalD4(TriangleD4* T, double4* N)
     N->x = (U.y * V.z) - (U.z * V.y);
     N->y = (U.z * V.x) - (U.x * V.z);
     N->z = (U.x * V.y) - (U.y * V.x);
+}
+
+void normD3(TriangleD3* T, double3* N)
+{
+    double3 U, V;
+    subtract_d3(&(T->p2), &(T->p0), &U);
+    subtract_d3(&(T->p1), &(T->p0), &V);
+
+    N->x = (U.y * V.z) - (U.z * V.y);
+    N->y = (U.z * V.x) - (U.x * V.z);
+    N->z = (U.x * V.y) - (U.y * V.x);
+
+    double norm = sqrt(N->x * N->x + N->y * N->y + N->z * N->z);
+ 
+    N->x /= norm;
+    N->y /= norm;
+    N->z /= norm;
+}
+
+void normD4(TriangleD4* T, double4* N)
+{
+    double4 U, V;
+    subtract_d4(&(T->p2), &(T->p0), &U);
+    subtract_d4(&(T->p1), &(T->p0), &V);
+
+    N->x = (U.y * V.z) - (U.z * V.y);
+    N->y = (U.z * V.x) - (U.x * V.z);
+    N->z = (U.x * V.y) - (U.y * V.x);
+    
+    double norm = sqrt(N->x * N->x + N->y * N->y + N->z * N->z);
+ 
+    N->x /= norm;
+    N->y /= norm;
+    N->z /= norm;
 }
 
 // -------------------------------------------------- Intersections

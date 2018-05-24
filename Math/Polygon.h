@@ -133,9 +133,13 @@ typedef struct
 
 void normalF3(TriangleF3*, float3*);
 void normalF4(TriangleF4*, float4*);
+void normF3(TriangleF3*, float3*);
+void normF4(TriangleF4*, float4*);
 
 void normalD3(TriangleD3*, double3*);
 void normalD4(TriangleD4*, double4*);
+void normD3(TriangleD3*, double3*);
+void normD4(TriangleD4*, double4*);
 
 int LF3IntersectTF3(float3* p0, float3* p1, TriangleF3* T, float3* out);
 
