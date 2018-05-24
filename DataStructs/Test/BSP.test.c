@@ -188,7 +188,6 @@ int TestConvexSet()
         sum ++;
     }
 
-    printf("\n");
     i=0;
     triangles[i].p0 =   (float4){0.0, 0.0, 0.0, 1.0};
     triangles[i].p1 =   (float4){1.0, 0.0, 0.0, 1.0};
@@ -209,6 +208,40 @@ int TestConvexSet()
     if(!isConvexSet(triangles, triangleCount))
     {
         printf("Error testing convex set. Case 2 should be concave!\n");
+        sum ++;
+    }
+
+    i = 1;
+    triangles[i].p0 =   (float4){0.0, 0.0, 3.0, 1.0};
+    triangles[i].p1 =   (float4){1.0, 0.0, 3.0, 1.0};
+    triangles[i++].p2 = (float4){1.0, 1.0, 3.0, 1.0};
+
+    if(!isConvexSet(triangles, triangleCount))
+    {
+        printf("Error testing convex set. Case 2 should be concave!\n");
+        sum ++;
+    }
+    
+    i=0;
+    triangles[i].p0 =   (float4){0.0, 0.0, 0.0, 1.0};
+    triangles[i].p1 =   (float4){1.0, 0.0, 0.0, 1.0};
+    triangles[i++].p2 = (float4){1.0, 1.0, 0.0, 1.0};
+
+    triangles[i].p0 =   (float4){1.0, 1.0, 0.0, 1.0};
+    triangles[i].p1 =   (float4){0.0, 1.0, 0.0, 1.0};
+    triangles[i++].p2 = (float4){0.0, 0.0, 0.0, 1.0};
+
+    triangles[i].p0 =   (float4){1.0, 0.0, 0.0, 1.0};
+    triangles[i].p1 =   (float4){0.0, -1.0, 0.0, 1.0};
+    triangles[i++].p2 = (float4){0.0, 0.0, 0.0, 1.0};
+
+    triangles[i].p0 =   (float4){1.0, 0.0, 0.0, 1.0};
+    triangles[i].p1 =   (float4){0.0, -1.0, 0.0, 1.0};
+    triangles[i++].p2 = (float4){1.0, -1.0, 0.0, 1.0};
+    
+    if(!isConvexSet(triangles, triangleCount))
+    {
+        printf("Error testing convex set. Case 3 should be convex!\n");
         sum ++;
     }
 

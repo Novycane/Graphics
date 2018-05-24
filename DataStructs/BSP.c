@@ -139,7 +139,7 @@ int isConvexSet(TriangleF4* polySet, unsigned int count)
     for(int i=0; i<count; i++)
     {
         normF4(&polySet[0], &normBase);
-        for(int j=i; j<count; j++)
+        for(int j=i + 1; j<count; j++)
         {
             normF4(&polySet[j], &norm);
             dotF4(&normBase, &norm, &sign);
@@ -147,6 +147,7 @@ int isConvexSet(TriangleF4* polySet, unsigned int count)
                 return 1;
         }
     }
+
     return 0;
 }
 
