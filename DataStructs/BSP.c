@@ -122,8 +122,6 @@ int classifyPolygon(TriangleF4* split, TriangleF4* face)
             return flags & ~INPLANE;
         
     }
-
-
     return 0;
 }
 
@@ -138,18 +136,17 @@ int isConvexSet(TriangleF4* polySet, unsigned int count)
     float4 normBase, norm;
     float sign;
 
-    normalF4(&polySet[0], &normBase);
-    printf("Norm: %f %f %f\n", normBase.x, normBase.y, normBase.z);
-    for(int i=1; i<count; i++)
+    for(int i=0; i<count; i++)
     {
-        normalF4(&polySet[i], &norm);
-        dotF4(&normBase, &norm, &sign);
-        printf("Norm: %f %f %f\n", norm.x, norm.y, norm.z);
-        printf("Dot: %f\n", sign);
-        if(sign < 0)
-            return 0;
+        normF4(&polySet[0], &normBase);
+        for(int j=i; j<count; j++)
+        {
+            normF4(&polySet[j], &norm);
+            dotF4(&normBase, &norm, &sign);
+            if(sign < 0)
+                return 1;
+        }
     }
-
-    return 1;
+    return 0;
 }
 
